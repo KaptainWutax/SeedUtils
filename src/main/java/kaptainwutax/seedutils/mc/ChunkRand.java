@@ -1,12 +1,19 @@
-package kaptainwutax.seedutils.chunk;
+package kaptainwutax.seedutils.mc;
 
 import kaptainwutax.seedutils.lcg.rand.JRand;
-import kaptainwutax.seedutils.util.MCVersion;
-import kaptainwutax.seedutils.util.exception.UnsupportedMCVersion;
+import kaptainwutax.seedutils.util.UnsupportedMCVersion;
 
 public class ChunkRand extends JRand {
 
 	protected int sampleCount;
+
+	public ChunkRand() {
+		super(0L, false);
+	}
+
+	public ChunkRand(long seed) {
+		super(seed);
+	}
 
 	public ChunkRand(long seed, boolean scramble) {
 		super(seed, scramble);

@@ -4,7 +4,15 @@ import java.util.Objects;
 
 public class LCG {
 
+    public static final LCG VISUAL_BASIC = new LCG(1140671485L, 12820163L, 1L << 24);
+    public static final LCG RANDU = new LCG(65539L, 0L, 1L << 31);
+    public static final LCG GLIBC = new LCG(1103515245L, 12345L, 1L << 31);
+    public static final LCG BORLAND_C = new LCG(22695477L, 1L, 1L << 32);
+    public static final LCG TURBO_PASCAL = new LCG(134775813L, 1L, 1L << 32);
+    public static final LCG OPEN_VMS = new LCG(69069L, 1L, 1L << 32);
     public static final LCG JAVA = new LCG(0x5DEECE66DL, 0xBL, 1L << 48);
+    public static final LCG MMIX = new LCG(6364136223846793005L, 1442695040888963407L);
+    public static final LCG NEWLIB_C = new LCG(6364136223846793005L, 1L);
 
     public final long multiplier;
     public final long addend;
@@ -12,6 +20,10 @@ public class LCG {
 
     private final boolean isPowerOf2;
     private final int trailingZeros;
+
+    public LCG(long multiplier, long addend) { //Modulus is 2^64.
+        this(multiplier, addend, 0);
+    }
 
     public LCG(long multiplier, long addend, long modulus) {
         this.multiplier = multiplier;
@@ -27,15 +39,11 @@ public class LCG {
     }
 
     public int getTrailingZeroes() {
-        if(this.trailingZeros < 0) {
-            throw new UnsupportedOperationException();
-        }
-
         return this.trailingZeros;
     }
 
     public long nextSeed(long seed) {
-        return mod(seed * multiplier + addend);
+        return this.mod(seed * this.multiplier + this.addend);
     }
 
     public LCG combine(long steps) {
@@ -55,18 +63,18 @@ public class LCG {
             intermediateMultiplier *= intermediateMultiplier;
         }
 
-        multiplier = mod(multiplier);
-        addend = mod(addend);
+        multiplier = this.mod(multiplier);
+        addend = this.mod(addend);
 
         return new LCG(multiplier, addend, this.modulus);
     }
 
     public LCG invert() {
-        return combine(-1);
+        return this.combine(-1);
     }
 
     public long mod(long n) {
-        if(this.isPowerOf2) {
+        if(this.isPowerOf2()) {
             return n & (this.modulus - 1);
         } else if(n <= 1L << 32) {
             return Long.remainderUnsigned(n, this.modulus);

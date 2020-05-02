@@ -1,6 +1,6 @@
-package kaptainwutax.seedutils.util.exception;
+package kaptainwutax.seedutils.util;
 
-import kaptainwutax.seedutils.util.MCVersion;
+import kaptainwutax.seedutils.mc.MCVersion;
 
 public class UnsupportedMCVersion extends RuntimeException {
 

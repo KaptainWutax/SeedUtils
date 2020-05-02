@@ -1,10 +1,8 @@
-package kaptainwutax.seedutils.chunk;
-
-import kaptainwutax.seedutils.util.MCVersion;
+package kaptainwutax.seedutils.mc;
 
 public final class ChunkSeeds {
 
-	private static final ChunkRand INTERNAL = new ChunkRand(0L, false);
+	private static final ChunkRand INTERNAL = new ChunkRand();
 
 	public static long getTerrainSeed(int chunkX, int chunkZ, MCVersion version) {
 		return INTERNAL.setTerrainSeed(chunkX, chunkZ, version);

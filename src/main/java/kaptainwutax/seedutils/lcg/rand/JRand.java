@@ -98,7 +98,7 @@ public class JRand extends Rand {
 		}
 	}
 
-	public CombinedJRand combine(int steps) {
+	public CombinedJRand combine(long steps) {
 		return new CombinedJRand(steps, this.getSeed(), false);
 	}
 

@@ -11,7 +11,7 @@ public class Rand {
         this.lcg = lcg;
     }
 
-    protected Rand(LCG lcg, long seed) {
+    public Rand(LCG lcg, long seed) {
         this(lcg);
         this.setSeed(seed);
     }

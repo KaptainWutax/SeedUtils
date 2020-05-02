@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.util;
+package kaptainwutax.seedutils.mc;
 
 public enum MCVersion {
 
