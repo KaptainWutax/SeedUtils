@@ -4,18 +4,30 @@ import java.util.Objects;
 
 public class LCG {
 
+    public static final LCG CC65_M23 = new LCG(65793L,4282663L, 1L << 23);
+
     public static final LCG VISUAL_BASIC = new LCG(1140671485L, 12820163L, 1L << 24);
+
+    public static final LCG RTL_UNIFORM = new LCG(2147483629L, 2147483587L, (1L << 31) - 1);
+    public static final LCG MINSTD_RAND0_C = new LCG(16807L, 0L, (1L << 31) - 1);
+    public static final LCG MINSTD_RAND_C = new LCG(48271, 0L, (1L << 31) - 1);
+
+    public static final LCG CC65_M31 = new LCG(16843009L,826366247L, 1L << 23);
     public static final LCG RANDU = new LCG(65539L, 0L, 1L << 31);
     public static final LCG GLIB_C = new LCG(1103515245L, 12345L, 1L << 31);
+
     public static final LCG BORLAND_C = new LCG(22695477L, 1L, 1L << 32);
-    public static final LCG TURBO_PASCAL = new LCG(134775813L, 1L, 1L << 32);
+    public static final LCG PASCAL = new LCG(134775813L, 1L, 1L << 32);
     public static final LCG OPEN_VMS = new LCG(69069L, 1L, 1L << 32);
     public static final LCG NUMERICAL_RECIPES = new LCG(1664525L, 1013904223L, 1L << 32);
     public static final LCG MS_VISUAL_C = new LCG(214013L, 2531011L, 1L << 32);
+
     public static final LCG JAVA = new LCG(25214903917L, 11L, 1L << 48);
+
+    public static final LCG JAVA_UNIQUIFIER = new LCG(181783497276652981L, 0L);
     public static final LCG MMIX = new LCG(6364136223846793005L, 1442695040888963407L);
     public static final LCG NEWLIB_C = new LCG(6364136223846793005L, 1L);
-    
+
     public final long multiplier;
     public final long addend;
     public final long modulus;
