@@ -17,8 +17,7 @@ public class JRand extends Rand {
 
 	protected JRand(LCG lcg, long seed, boolean scramble) {
 		super(lcg);
-		if(scramble)this.setSeedScrambled(seed);
-		else this.setSeed(seed);
+		this.setSeed(seed, scramble);
 	}
 
 	public JRand(long seed) {
@@ -27,8 +26,7 @@ public class JRand extends Rand {
 
 	public JRand(long seed, boolean scramble) {
 		super(LCG.JAVA);
-		if(scramble)this.setSeedScrambled(seed);
-		else this.setSeed(seed);
+		this.setSeed(seed, scramble);
 	}
 
 	public static JRand ofInternalSeed(long seed) {
@@ -39,8 +37,14 @@ public class JRand extends Rand {
 		return new JRand(seed, true);
 	}
 
-	public void setSeedScrambled(long seed) {
-		this.setSeed(seed ^ LCG.JAVA.multiplier);
+	@Override
+	public void setSeed(long seed) {
+		this.setSeed(seed, true);
+	}
+
+	public void setSeed(long seed, boolean scramble) {
+		if(scramble)super.setSeed(seed ^ LCG.JAVA.multiplier);
+		else super.setSeed(seed);
 	}
 
 	public int next(int bits) {
@@ -140,7 +144,7 @@ public class JRand extends Rand {
 
 		@Override
 		public void setSeed(long seed) {
-			this.delegate.setSeedScrambled(seed);
+			this.delegate.setSeed(seed);
 		}
 	}
 

@@ -31,12 +31,12 @@ public class ChunkRand extends JRand {
 
 	public long setTerrainSeed(int chunkX, int chunkZ, MCVersion version) {
 		long seed = (long)chunkX * 341873128712L + (long)chunkZ * 132897987541L;
-		this.setSeedScrambled(seed);
+		this.setSeed(seed);
 		return seed;
 	}
 
 	public long setPopulationSeed(long worldSeed, int x, int z, MCVersion version) {
-		this.setSeedScrambled(worldSeed);
+		this.setSeed(worldSeed);
 		long a, b;
 
 		if(version.isOlderThan(MCVersion.v1_13)) {
@@ -48,7 +48,7 @@ public class ChunkRand extends JRand {
 		}
 
 		long seed = (long)x * a + (long)z * b ^ worldSeed;
-		this.setSeedScrambled(seed);
+		this.setSeed(seed);
 		return seed;
 	}
 
@@ -58,7 +58,7 @@ public class ChunkRand extends JRand {
 		}
 
 		long seed = populationSeed + (long)index + (long)(10000 * step);
-		this.setSeedScrambled(seed);
+		this.setSeed(seed);
 		return seed;
 	}
 
@@ -68,24 +68,24 @@ public class ChunkRand extends JRand {
 	}
 
 	public long setCarverSeed(long worldSeed, int chunkX, int chunkZ, MCVersion version) {
-		this.setSeedScrambled(worldSeed);
+		this.setSeed(worldSeed);
 		long a = this.nextLong();
 		long b = this.nextLong();
 		long seed = (long)chunkX * a ^ (long)chunkZ * b ^ worldSeed;
-		this.setSeedScrambled(seed);
+		this.setSeed(seed);
 		return seed;
 	}
 
 	public long setRegionSeed(long worldSeed, int regionX, int regionZ, int salt, MCVersion version) {
 		long seed = (long)regionX * 341873128712L + (long)regionZ * 132897987541L + worldSeed + (long)salt;
-		this.setSeedScrambled(seed);
+		this.setSeed(seed);
 		return seed;
 	}
 
 	public long setSlimeSeed(long worldSeed, int chunkX, int chunkZ, long scrambler, MCVersion version) {
 		long seed = worldSeed + (long)(chunkX * chunkX * 4987142)
 				+ (long)(chunkX * 5947611) + (long)(chunkZ * chunkZ) * 4392871L + (long)(chunkZ * 389711) ^ scrambler;
-		this.setSeedScrambled(seed);
+		this.setSeed(seed);
 		return seed;
 	}
 
