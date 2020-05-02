@@ -24,11 +24,16 @@ public class Rand {
         return this.seed;
     }
 
-    public long getBits(int bits) {
+    public long nextSeed() {
         this.seed = this.lcg.nextSeed(this.seed);
+        return this.seed;
+    }
 
-        if(this.lcg.isPowerOf2()) {
-            return this.seed >>> (this.lcg.getTrailingZeroes() - bits);
+    public long getBits(int bits) {
+        this.seed = this.nextSeed();
+
+        if(this.lcg.isModPowerOf2()) {
+            return this.seed >>> (this.lcg.getModTrailingZeroes() - bits);
         }
 
         throw new UnsupportedOperationException("lazy");

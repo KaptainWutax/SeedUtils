@@ -1,5 +1,7 @@
 package kaptainwutax.seedutils.lcg;
 
+import kaptainwutax.seedutils.util.Mth;
+
 import java.util.Objects;
 
 public class LCG {
@@ -27,6 +29,7 @@ public class LCG {
     public static final LCG JAVA_UNIQUIFIER = new LCG(181783497276652981L, 0L);
     public static final LCG MMIX = new LCG(6364136223846793005L, 1442695040888963407L);
     public static final LCG NEWLIB_C = new LCG(6364136223846793005L, 1L);
+    public static final LCG XKCD = new LCG(0L, 4L);
 
     public final long multiplier;
     public final long addend;
@@ -48,16 +51,26 @@ public class LCG {
         this.trailingZeros = this.isPowerOf2 ? Long.numberOfTrailingZeros(this.modulus) : -1;
     }
 
-    public boolean isPowerOf2() {
+    public boolean isModPowerOf2() {
         return this.isPowerOf2;
     }
 
-    public int getTrailingZeroes() {
+    public int getModTrailingZeroes() {
         return this.trailingZeros;
     }
 
     public long nextSeed(long seed) {
         return this.mod(seed * this.multiplier + this.addend);
+    }
+
+    public long mod(long n) {
+        if(this.isModPowerOf2()) {
+            return n & (this.modulus - 1);
+        } else if(n <= 1L << 32) {
+            return Long.remainderUnsigned(n, this.modulus);
+        }
+
+        throw new UnsupportedOperationException();
     }
 
     public LCG combine(long steps) {
@@ -87,11 +100,11 @@ public class LCG {
         return this.combine(-1);
     }
 
-    public long mod(long n) {
-        if(this.isPowerOf2()) {
-            return n & (this.modulus - 1);
-        } else if(n <= 1L << 32) {
-            return Long.remainderUnsigned(n, this.modulus);
+    public long distance(long seedA, long seedB) {
+        if(DiscreteLog.supports(this)) {
+            long aFromZero = DiscreteLog.distanceFromZero(this, seedA);
+            long bFromZero = DiscreteLog.distanceFromZero(this, seedB);
+            return Mth.maskSigned(bFromZero - aFromZero, 64 - this.getModTrailingZeroes());
         }
 
         throw new UnsupportedOperationException();

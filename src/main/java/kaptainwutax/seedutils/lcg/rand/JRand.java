@@ -6,15 +6,15 @@ import java.util.Random;
 
 public class JRand extends Rand {
 
-	private double nextNextGaussian;
-	private boolean haveNextNextGaussian = false;
+	private static final double DOUBLE_UNIT = 0x1.0p-53;
 
-	//Force the user to be verbose about it.
+	private double nextNextGaussian;
+	private boolean haveNextNextGaussian;
+
 	protected JRand(LCG lcg, long seed) {
 		super(lcg, seed);
 	}
 
-	//Force the user to be verbose about it.
 	protected JRand(LCG lcg, long seed, boolean scramble) {
 		super(lcg);
 		if(scramble)this.setSeedScrambled(seed);
@@ -29,6 +29,14 @@ public class JRand extends Rand {
 		super(LCG.JAVA);
 		if(scramble)this.setSeedScrambled(seed);
 		else this.setSeed(seed);
+	}
+
+	public static JRand ofInternalSeed(long seed) {
+		return new JRand(seed, false);
+	}
+
+	public static JRand ofScrambledSeed(long seed) {
+		return new JRand(seed, true);
 	}
 
 	public void setSeedScrambled(long seed) {
@@ -75,7 +83,7 @@ public class JRand extends Rand {
 	}
 
 	public double nextDouble() {
-		return (((long)(this.next(26)) << 27) + next(27)) / (double)(1L << 53);
+		return (((long)(this.next(26)) << 27) + next(27)) * DOUBLE_UNIT;
 	}
 
 	public double nextGaussian() {
