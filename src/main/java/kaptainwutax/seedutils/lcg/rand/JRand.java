@@ -1,0 +1,139 @@
+package kaptainwutax.seedutils.lcg.rand;
+
+import kaptainwutax.seedutils.lcg.LCG;
+
+import java.util.Random;
+
+public class JRand extends Rand {
+
+	private double nextNextGaussian;
+	private boolean haveNextNextGaussian = false;
+
+	//Force the user to be verbose about it.
+	protected JRand(LCG lcg, long seed) {
+		super(lcg, seed);
+	}
+
+	//Force the user to be verbose about it.
+	protected JRand(LCG lcg, long seed, boolean scramble) {
+		super(lcg);
+		if(scramble)this.setSeedScrambled(seed);
+		else this.setSeed(seed);
+	}
+
+	public JRand(long seed) {
+		this(LCG.JAVA, seed, true);
+	}
+
+	public JRand(long seed, boolean scramble) {
+		super(LCG.JAVA);
+		if(scramble)this.setSeedScrambled(seed);
+		else this.setSeed(seed);
+	}
+
+	public void setSeedScrambled(long seed) {
+		this.setSeed(seed ^ LCG.JAVA.multiplier);
+	}
+
+	public int next(int bits) {
+		return (int)this.getBits(bits);
+	}
+
+	public boolean nextBoolean() {
+		return this.next(1) == 1;
+	}
+
+	public int nextInt() {
+		return this.next(32);
+	}
+
+	public int nextInt(int bound) {
+		if(bound <= 0) {
+			throw new IllegalArgumentException("bound must be positive");
+		}
+
+		if((bound & -bound) == bound) {
+			return (int)((bound * (long)this.next(31)) >> 31);
+		}
+
+		int bits, value;
+
+		do {
+			bits = this.next(31);
+			value = bits % bound;
+		} while(bits - value + (bound - 1) < 0);
+
+		return value;
+	}
+
+	public float nextFloat() {
+		return this.next(24) / ((float)(1 << 24));
+	}
+
+	public long nextLong() {
+		return ((long)this.next(32) << 32) + this.next(32);
+	}
+
+	public double nextDouble() {
+		return (((long)(this.next(26)) << 27) + next(27)) / (double)(1L << 53);
+	}
+
+	public double nextGaussian() {
+		if(this.haveNextNextGaussian) {
+			this.haveNextNextGaussian = false;
+			return this.nextNextGaussian;
+		} else {
+			double v1, v2, s;
+
+			do {
+				v1 = 2 * nextDouble() - 1; // between -1 and 1
+				v2 = 2 * nextDouble() - 1; // between -1 and 1
+				s = v1 * v1 + v2 * v2;
+			} while (s >= 1 || s == 0);
+
+			double multiplier = StrictMath.sqrt(-2 * StrictMath.log(s)/s);
+			this.nextNextGaussian = v2 * multiplier;
+			this.haveNextNextGaussian = true;
+			return v1 * multiplier;
+		}
+	}
+
+	public CombinedJRand combine(int steps) {
+		return new CombinedJRand(steps, this.getSeed(), false);
+	}
+
+	public JRand copy() {
+		return new JRand(this.getSeed(), false);
+	}
+
+	public Random asRandomView() {
+		return new JRand.RandomWrapper(this);
+	}
+
+	public Random copyToRandom() {
+		return this.copy().asRandomView();
+	}
+
+	public Random toRandom() {
+		return new Random(this.getSeed() ^ LCG.JAVA.multiplier);
+	}
+
+	private static final class RandomWrapper extends Random {
+		private final JRand delegate;
+
+		private RandomWrapper(JRand delegate) {
+			this.delegate = delegate;
+		}
+
+		@Override
+		protected int next(int bits) {
+			return this.delegate.next(bits);
+		}
+
+		@Override
+		public void setSeed(long seed) {
+			this.delegate.setSeedScrambled(seed);
+		}
+	}
+
+}
