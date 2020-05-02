@@ -131,4 +131,10 @@ public class LCG {
                 ", addend=" + this.addend + ", modulo=" + this.modulus + '}';
     }
 
+    public String toPrettyString() {
+        return "Multiplier: " + String.format("0x%X (%d)", this.multiplier, this.multiplier) +
+                ", Addend: " + String.format("0x%X (%d)", this.addend, this.addend) +
+                ", Modulo: " + String.format("0x%X (%d)", this.modulus, this.modulus);
+    }
+
 }
