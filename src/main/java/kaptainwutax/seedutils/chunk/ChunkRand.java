@@ -6,7 +6,7 @@ import kaptainwutax.seedutils.util.exception.UnsupportedMCVersion;
 
 public class ChunkRand extends JRand {
 
-	private int sampleCount;
+	protected int sampleCount;
 
 	public ChunkRand(long seed, boolean scramble) {
 		super(seed, scramble);
@@ -33,11 +33,11 @@ public class ChunkRand extends JRand {
 		long a, b;
 
 		if(version.isOlderThan(MCVersion.v1_13)) {
+			a = this.nextLong() / 2L * 2L + 1L;
+			b = this.nextLong() / 2L * 2L + 1L;
+		} else {
 			a = this.nextLong() | 1L;
 			b = this.nextLong() | 1L;
-		} else {
-			a = this.nextLong() / 2L * 2L + 1L;
-			b = this.nextLong() / 2L* 2L + 1L;
 		}
 
 		long seed = (long)x * a + (long)z * b ^ worldSeed;
