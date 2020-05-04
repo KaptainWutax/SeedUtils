@@ -1,6 +1,7 @@
 package kaptainwutax.seedutils.mc;
 
 import kaptainwutax.seedutils.lcg.rand.JRand;
+import kaptainwutax.seedutils.util.Mth;
 import kaptainwutax.seedutils.util.UnsupportedMCVersion;
 
 public class ChunkRand extends JRand {
@@ -32,7 +33,7 @@ public class ChunkRand extends JRand {
 	public long setTerrainSeed(int chunkX, int chunkZ, MCVersion version) {
 		long seed = (long)chunkX * 341873128712L + (long)chunkZ * 132897987541L;
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	public long setPopulationSeed(long worldSeed, int x, int z, MCVersion version) {
@@ -49,7 +50,7 @@ public class ChunkRand extends JRand {
 
 		long seed = (long)x * a + (long)z * b ^ worldSeed;
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	public long setDecoratorSeed(long populationSeed, int index, int step, MCVersion version) {
@@ -59,7 +60,7 @@ public class ChunkRand extends JRand {
 
 		long seed = populationSeed + (long)index + (long)(10000 * step);
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	public long setDecoratorSeed(long worldSeed, int blockX, int blockZ, int index, int step, MCVersion version) {
@@ -73,20 +74,20 @@ public class ChunkRand extends JRand {
 		long b = this.nextLong();
 		long seed = (long)chunkX * a ^ (long)chunkZ * b ^ worldSeed;
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	public long setRegionSeed(long worldSeed, int regionX, int regionZ, int salt, MCVersion version) {
 		long seed = (long)regionX * 341873128712L + (long)regionZ * 132897987541L + worldSeed + (long)salt;
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	public long setSlimeSeed(long worldSeed, int chunkX, int chunkZ, long scrambler, MCVersion version) {
 		long seed = worldSeed + (long)(chunkX * chunkX * 4987142)
 				+ (long)(chunkX * 5947611) + (long)(chunkZ * chunkZ) * 4392871L + (long)(chunkZ * 389711) ^ scrambler;
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	public long setSlimeSeed(long worldSeed, int chunkX, int chunkZ, MCVersion version) {

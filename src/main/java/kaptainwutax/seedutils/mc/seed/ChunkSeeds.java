@@ -1,4 +1,7 @@
-package kaptainwutax.seedutils.mc;
+package kaptainwutax.seedutils.mc.seed;
+
+import kaptainwutax.seedutils.mc.ChunkRand;
+import kaptainwutax.seedutils.mc.MCVersion;
 
 public final class ChunkSeeds {
 

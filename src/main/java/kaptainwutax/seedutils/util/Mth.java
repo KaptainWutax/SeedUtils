@@ -1,8 +1,12 @@
 package kaptainwutax.seedutils.util;
 
-public class Mth {
+public final class Mth {
 
-	private static long pow2(int bits) {
+	public static final long MASK_16 = mask(16);
+	public static final long MASK_32 = mask(32);
+	public static final long MASK_48 = mask(48);
+
+	public static long pow2(int bits) {
 		return 1L << bits;
 	}
 
