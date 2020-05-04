@@ -83,6 +83,14 @@ public class ChunkRand extends JRand {
 		return seed & Mth.MASK_48;
 	}
 
+	public long setWeakSeed(long worldSeed, int chunkX, int chunkZ, MCVersion version) {
+		int sX = chunkX >> 4;
+		int sZ = chunkZ >> 4;
+		long seed = (long)(sX ^ sZ << 4) ^ worldSeed;
+		this.setSeed(seed);
+		return seed;
+	}
+
 	public long setSlimeSeed(long worldSeed, int chunkX, int chunkZ, long scrambler, MCVersion version) {
 		long seed = worldSeed + (long)(chunkX * chunkX * 4987142)
 				+ (long)(chunkX * 5947611) + (long)(chunkZ * chunkZ) * 4392871L + (long)(chunkZ * 389711) ^ scrambler;

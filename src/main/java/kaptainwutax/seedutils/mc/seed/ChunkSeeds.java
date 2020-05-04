@@ -31,6 +31,10 @@ public final class ChunkSeeds {
 		return INTERNAL.setRegionSeed(worldSeed, regionX, regionZ, salt, version);
 	}
 
+	public static long getWeakSeed(long worldSeed, int chunkX, int chunkZ, MCVersion version) {
+		return INTERNAL.setWeakSeed(worldSeed, chunkX, chunkZ, version);
+	}
+
 	public static long getSlimeSeed(long worldSeed, int chunkX, int chunkZ, long scrambler, MCVersion version) {
 		return INTERNAL.setSlimeSeed(worldSeed, chunkX, chunkZ, scrambler, version);
 	}
