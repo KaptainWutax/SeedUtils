@@ -32,7 +32,9 @@ public final class WorldSeed {
         long a = (24667315L * upperBits + 18218081L * lowerBits + 67552711L) >> 32;
         long b = (-4824621L * upperBits + 7847617L * lowerBits + 7847617L) >> 32;
         long seed = 7847617L * a - 18218081L * b;
-        long nextLong = ((long)(int)(seed >>> 16) << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
+
+        //Compute the nextLong() call fast without creating a JRand object.
+        long nextLong = (seed >>> 16 << 32) + (LCG.JAVA.nextSeed(seed) >>> 16);
         return nextLong == worldSeed;
     }
 
@@ -49,7 +51,7 @@ public final class WorldSeed {
     }
 
     public static long toHash(long worldSeed) {
-        MessageDigest digest = null;
+        MessageDigest digest;
 
         try {
             digest = MessageDigest.getInstance("SHA-256");
@@ -63,10 +65,10 @@ public final class WorldSeed {
         digest.update(buffer.array());
 
         byte[] bytes = digest.digest();
-        long hashedWorldSeed = bytes[0] & 0xFF;
+        long hashedWorldSeed = bytes[0] & 0xFFL;
 
         for(int i = 1; i < 8; i++) {
-            hashedWorldSeed |= (bytes[i] & 0xFFL) << (i * 8);
+            hashedWorldSeed |= (bytes[i] & 0xFFL) << (i << 3);
         }
 
         return hashedWorldSeed;
