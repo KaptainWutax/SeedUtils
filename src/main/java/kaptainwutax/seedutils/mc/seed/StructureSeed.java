@@ -16,7 +16,7 @@ public final class StructureSeed {
         return upperBits << 48 | structureSeed;
     }
 
-    //TODO: You can probably do better than brute-force.
+    //TODO: You can do better than brute-force. Smh...
     public static List<Long> toRandomWorldSeeds(long structureSeed) {
         List<Long> randomWorldSeeds = new ArrayList<>();
 

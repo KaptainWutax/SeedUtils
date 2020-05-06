@@ -39,8 +39,8 @@ public class ChunkRand extends JRand {
 	 *
 	 * The parameters named "x" and "z" may seem ambiguous but there is a good reason behind it.
 	 * In 1.13+, this method takes in the world seed and the negative-most block coordinates of the
-	 * chunk. The coordinate pair provided is equivalent to (chunkX * 16, chunkZ * 16) and
-	 * (blockX, blockZ). In older versions though, the method takes in chunk coordinates.
+	 * chunk. The coordinate pair provided is equivalent to (chunkX * 16, chunkZ * 16). In older
+	 * versions though, the method takes in chunk coordinates.
 	 *
 	 * Additionally, in 1.13, the {@code / 2L * 2L + 1L} operation on {@code nextLong()} was replaced
 	 * with a much cleaner {| 1L}. These two operations may seem to be same, but in reality, the former

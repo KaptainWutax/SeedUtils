@@ -14,8 +14,8 @@ public final class Mth {
 		return pow2(bits) - 1;
 	}
 
-	public static long maskSigned(long number, int bits) {
-		return number << bits >> bits; //removes top bits and copies sign bits back down
+	public static long maskSigned(long value, int bits) {
+		return value << bits >> bits; //removes top bits and copies sign bits back down
 	}
 
 	public static long modInverse(long a, long k) {

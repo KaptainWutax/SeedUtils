@@ -1,5 +1,9 @@
 package kaptainwutax.seedutils.mc;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public enum MCVersion {
 
 	v1_15("1.15",15, 0, 0),
@@ -12,6 +16,8 @@ public enum MCVersion {
 	v1_8("1.8", 8, 0, 0),
 	v_1_7("1.7", 7, 0, 0);
 
+	private static Map<String, MCVersion> STRING_TO_VERSION = Arrays.stream(values()).collect(Collectors.toMap(MCVersion::toString, o -> o));
+
 	public final String name;
 	public final int release;
 	public final int subVersion;
@@ -22,6 +28,10 @@ public enum MCVersion {
 		this.release = release;
 		this.subVersion = subVersion;
 		this.snapshot = snapshot;
+	}
+
+	public static MCVersion fromString(String name) {
+		return STRING_TO_VERSION.get(name);
 	}
 
 	public boolean isNewerThan(MCVersion v) {
