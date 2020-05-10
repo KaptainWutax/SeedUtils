@@ -1,5 +1,7 @@
 package kaptainwutax.seedutils.util.pos;
 
+import java.util.Objects;
+
 @SuppressWarnings("unchecked")
 public class Pos {
 
@@ -37,6 +39,21 @@ public class Pos {
 
 	public <T extends Pos> T subtract(Pos pos) {
 		return (T)this.factory.create(this.getX() - pos.getX(), this.getY() - pos.getY(), this.getZ() - pos.getZ());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o)return true;
+		if(!(o instanceof Pos))return false;
+		Pos pos = (Pos) o;
+		return this.getX() == pos.getX() &&
+				this.getY() == pos.getY() &&
+				this.getZ() == pos.getZ();
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getZ() * 961 + this.getY() * 31 + this.getX();
 	}
 
 	@Override
