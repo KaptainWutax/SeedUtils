@@ -48,7 +48,7 @@ public class JRand extends Rand {
 	}
 
 	public int next(int bits) {
-		return (int)this.getBits(bits);
+		return (int)this.nextBits(bits);
 	}
 
 	public boolean nextBoolean() {

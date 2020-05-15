@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.util.pos;
+package kaptainwutax.seedutils.mc.pos;
 
 public class BPos extends Pos {
 

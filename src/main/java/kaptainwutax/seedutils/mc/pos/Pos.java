@@ -1,6 +1,4 @@
-package kaptainwutax.seedutils.util.pos;
-
-import java.util.Objects;
+package kaptainwutax.seedutils.mc.pos;
 
 @SuppressWarnings("unchecked")
 public class Pos {

@@ -171,7 +171,7 @@ public class ChunkRand extends JRand {
 		int sZ = chunkZ >> 4;
 		long seed = (long)(sX ^ sZ << 4) ^ worldSeed;
 		this.setSeed(seed);
-		return seed;
+		return seed & Mth.MASK_48;
 	}
 
 	/**

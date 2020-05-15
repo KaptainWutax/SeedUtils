@@ -1,14 +1,9 @@
-package kaptainwutax.seedutils.util.pos;
+package kaptainwutax.seedutils.mc.pos;
 
 public class CPos extends Pos {
 
 	public CPos(int x, int z) {
 		super(x, 0, z);
-	}
-
-	@Override
-	public int getY() {
-		return 0;
 	}
 
 	public BPos toBlockPos() {

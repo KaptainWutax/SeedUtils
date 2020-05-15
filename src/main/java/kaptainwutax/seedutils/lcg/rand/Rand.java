@@ -1,6 +1,7 @@
 package kaptainwutax.seedutils.lcg.rand;
 
 import kaptainwutax.seedutils.lcg.LCG;
+import kaptainwutax.seedutils.util.Mth;
 
 public class Rand {
 
@@ -25,18 +26,17 @@ public class Rand {
     }
 
     public long nextSeed() {
-        this.seed = this.lcg.nextSeed(this.seed);
-        return this.seed;
+        return this.seed = this.lcg.nextSeed(this.seed);
     }
 
-    public long getBits(int bits) {
+    public long nextBits(int bits) {
         this.seed = this.nextSeed();
 
         if(this.lcg.isModPowerOf2()) {
             return this.seed >>> (this.lcg.getModTrailingZeroes() - bits);
         }
 
-        throw new UnsupportedOperationException("lazy");
+        return this.seed / Mth.pow2(bits);
     }
 
     public void advance(long calls) {
