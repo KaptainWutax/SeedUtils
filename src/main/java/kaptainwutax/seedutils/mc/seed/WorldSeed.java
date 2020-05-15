@@ -3,13 +3,13 @@ package kaptainwutax.seedutils.mc.seed;
 import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.Mth;
 import kaptainwutax.seedutils.util.SeedIterator;
+import kaptainwutax.seedutils.util.StringUnhasher;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public final class WorldSeed {
 
@@ -23,6 +23,16 @@ public final class WorldSeed {
 
     public static SeedIterator getSisterSeeds(long worldSeed) {
         return StructureSeed.getWorldSeeds(toStructureSeed(worldSeed));
+    }
+
+    public static boolean isString(long worldSeed) {
+        return (int)worldSeed == worldSeed;
+    }
+
+    public static void toString(long worldSeed, StringUnhasher.Config config, Predicate<String> shouldContinue) {
+        if(isString(worldSeed)) {
+            StringUnhasher.unhash((int)worldSeed, config, shouldContinue);
+        }
     }
 
     public static boolean isRandom(long worldSeed) {
@@ -60,11 +70,14 @@ public final class WorldSeed {
             return worldSeed;
         }
 
-        ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
-        buffer.putLong(worldSeed);
-        digest.update(buffer.array());
+        byte[] bytes = new byte[8];
 
-        byte[] bytes = digest.digest();
+        for(int i = 0; i < 8; i++) {
+            bytes[i] = (byte)(worldSeed & 0xFFL);
+            worldSeed >>>= 8;
+        }
+
+        bytes = digest.digest(bytes);
         long hashedWorldSeed = bytes[0] & 0xFFL;
 
         for(int i = 1; i < 8; i++) {
