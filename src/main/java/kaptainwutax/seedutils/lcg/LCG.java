@@ -1,6 +1,6 @@
 package kaptainwutax.seedutils.lcg;
 
-import kaptainwutax.seedutils.util.Mth;
+import kaptainwutax.seedutils.util.math.Mth;
 
 import java.util.Objects;
 

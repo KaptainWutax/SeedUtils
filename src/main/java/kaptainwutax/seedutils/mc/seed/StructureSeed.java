@@ -1,6 +1,6 @@
 package kaptainwutax.seedutils.mc.seed;
 
-import kaptainwutax.seedutils.util.Mth;
+import kaptainwutax.seedutils.util.math.Mth;
 import kaptainwutax.seedutils.util.SeedIterator;
 
 import java.util.ArrayList;

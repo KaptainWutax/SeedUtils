@@ -1,9 +1,27 @@
 package kaptainwutax.seedutils.mc.pos;
 
-public class BPos extends Pos {
+import kaptainwutax.seedutils.util.math.Vec3i;
+
+public class BPos extends Vec3i {
 
 	public BPos(int x, int y, int z) {
-		super(x, y, z, BPos::new);
+		super(x, y, z);
+	}
+
+	public BPos add(BPos pos) {
+		return this.add(pos.getX(), pos.getY(), pos.getZ());
+	}
+
+	public BPos subtract(BPos pos) {
+		return this.subtract(pos.getX(), pos.getY(), pos.getZ());
+	}
+
+	public BPos add(int x, int y, int z) {
+		return new BPos(this.getX() + x, this.getY() + y, this.getZ() + z);
+	}
+
+	public BPos subtract(int x, int y, int z) {
+		return new BPos(this.getX() - x, this.getY() - y, this.getZ() - z);
 	}
 
 	public BPos toChunkCorner() {

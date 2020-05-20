@@ -1,6 +1,8 @@
 package kaptainwutax.seedutils.mc.pos;
 
-public class CPos extends Pos {
+import kaptainwutax.seedutils.util.math.Vec3i;
+
+public class CPos extends Vec3i {
 
 	public CPos(int x, int z) {
 		super(x, 0, z);

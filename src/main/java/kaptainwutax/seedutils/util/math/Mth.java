@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.util;
+package kaptainwutax.seedutils.util.math;
 
 public final class Mth {
 
@@ -27,6 +27,20 @@ public final class Mth {
 		x += x - a * x * x;
 
 		return x & ((1L << k) - 1);
+	}
+
+	public static int max(int... values) {
+		if(values.length == 0) {
+			throw new UnsupportedOperationException();
+		}
+
+		int max = values[0];
+
+		for(int i = 1; i < values.length; i++) {
+			max = Math.max(max, values[i]);
+		}
+
+		return max;
 	}
 
 }

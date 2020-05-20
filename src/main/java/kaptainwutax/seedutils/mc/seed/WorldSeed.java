@@ -1,7 +1,7 @@
 package kaptainwutax.seedutils.mc.seed;
 
 import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.util.Mth;
+import kaptainwutax.seedutils.util.math.Mth;
 import kaptainwutax.seedutils.util.SeedIterator;
 import kaptainwutax.seedutils.util.StringUnhasher;
 
@@ -29,9 +29,9 @@ public final class WorldSeed {
         return (int)worldSeed == worldSeed;
     }
 
-    public static void toString(long worldSeed, StringUnhasher.Config config, Predicate<String> shouldContinue) {
+    public static void toString(long worldSeed, StringUnhasher.Config config, Predicate<String> continueSearching) {
         if(isString(worldSeed)) {
-            StringUnhasher.unhash((int)worldSeed, config, shouldContinue);
+            StringUnhasher.unhash((int)worldSeed, config, continueSearching);
         }
     }
 

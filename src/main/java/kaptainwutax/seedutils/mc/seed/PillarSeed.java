@@ -1,7 +1,7 @@
 package kaptainwutax.seedutils.mc.seed;
 
 import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.util.Mth;
+import kaptainwutax.seedutils.util.math.Mth;
 import kaptainwutax.seedutils.util.SeedIterator;
 
 public final class PillarSeed {

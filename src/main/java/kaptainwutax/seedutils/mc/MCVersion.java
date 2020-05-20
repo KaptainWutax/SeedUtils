@@ -14,7 +14,7 @@ public enum MCVersion {
 	v1_10("1.10", 10, 0, 0),
 	v1_9("1.9", 9, 0, 0),
 	v1_8("1.8", 8, 0, 0),
-	v_1_7("1.7", 7, 0, 0);
+	v1_7("1.7", 7, 0, 0);
 
 	private static Map<String, MCVersion> STRING_TO_VERSION = Arrays.stream(values()).collect(Collectors.toMap(MCVersion::toString, o -> o));
 

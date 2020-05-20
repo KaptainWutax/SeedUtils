@@ -1,7 +1,7 @@
 package kaptainwutax.seedutils.mc;
 
 import kaptainwutax.seedutils.lcg.rand.JRand;
-import kaptainwutax.seedutils.util.Mth;
+import kaptainwutax.seedutils.util.math.Mth;
 import kaptainwutax.seedutils.util.UnsupportedMCVersion;
 
 public class ChunkRand extends JRand {
@@ -91,7 +91,7 @@ public class ChunkRand extends JRand {
 	 */
 	public long setDecoratorSeed(long populationSeed, int index, int step, MCVersion version) {
 		if(version.isOlderThan(MCVersion.v1_13)) {
-			throw new UnsupportedMCVersion("decorator seed", version);
+			throw new UnsupportedMCVersion(version, "decorator seed");
 		}
 
 		long seed = populationSeed + (long)index + (long)(10000 * step);

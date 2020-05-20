@@ -4,7 +4,7 @@ import kaptainwutax.seedutils.mc.MCVersion;
 
 public class UnsupportedMCVersion extends RuntimeException {
 
-	public UnsupportedMCVersion(String type, MCVersion version) {
+	public UnsupportedMCVersion(MCVersion version, String type) {
 		super("Minecraft " + version + " does not support " + type);
 	}
 
