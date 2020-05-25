@@ -11,6 +11,10 @@ public final class Mth {
 	}
 
 	public static long mask(int bits) {
+		if(bits >= 64) {
+			return ~0;
+		}
+
 		return pow2(bits) - 1;
 	}
 
@@ -18,7 +22,7 @@ public final class Mth {
 		return value << bits >> bits; //removes top bits and copies sign bits back down
 	}
 
-	public static long modInverse(long a, long k) {
+	public static long modInverse(long a, int k) {
 		long x = ((((a << 1) ^ a) & 4) << 1) ^ a;
 
 		x += x - a * x * x;
@@ -26,7 +30,7 @@ public final class Mth {
 		x += x - a * x * x;
 		x += x - a * x * x;
 
-		return x & ((1L << k) - 1);
+		return x & Mth.mask(k);
 	}
 
 	public static int max(int... values) {

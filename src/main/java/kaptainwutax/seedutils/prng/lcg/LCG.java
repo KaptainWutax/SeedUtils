@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.lcg;
+package kaptainwutax.seedutils.prng.lcg;
 
 import kaptainwutax.seedutils.util.math.Mth;
 
@@ -57,6 +57,10 @@ public class LCG {
 
     public int getModTrailingZeroes() {
         return this.trailingZeros;
+    }
+
+    public boolean isMultiplicative() {
+        return this.addend == 0;
     }
 
     public long nextSeed(long seed) {

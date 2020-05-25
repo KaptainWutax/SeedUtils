@@ -1,9 +1,10 @@
 package kaptainwutax.seedutils.mc.seed;
 
-import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.util.math.Mth;
+import kaptainwutax.seedutils.prng.SeedMixer;
+import kaptainwutax.seedutils.prng.lcg.LCG;
 import kaptainwutax.seedutils.util.SeedIterator;
 import kaptainwutax.seedutils.util.StringUnhasher;
+import kaptainwutax.seedutils.util.math.Mth;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -19,6 +20,11 @@ public final class WorldSeed {
 
     public static long toStructureSeed(long worldSeed) {
         return worldSeed & Mth.MASK_48;
+    }
+
+    public static long getShadowSeed(long worldSeed) {
+        long nextSeed = SeedMixer.mixSeed(worldSeed, 0L);
+        return SeedMixer.solveRoot(-nextSeed, ~worldSeed & 1);
     }
 
     public static SeedIterator getSisterSeeds(long worldSeed) {

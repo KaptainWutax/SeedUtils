@@ -1,8 +1,8 @@
 package kaptainwutax.seedutils.mc;
 
-import kaptainwutax.seedutils.lcg.rand.JRand;
-import kaptainwutax.seedutils.util.math.Mth;
+import kaptainwutax.seedutils.prng.lcg.java.JRand;
 import kaptainwutax.seedutils.util.UnsupportedMCVersion;
+import kaptainwutax.seedutils.util.math.Mth;
 
 public class ChunkRand extends JRand {
 

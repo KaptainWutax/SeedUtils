@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.lcg;
+package kaptainwutax.seedutils.prng.lcg;
 
 import kaptainwutax.seedutils.util.math.Mth;
 

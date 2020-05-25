@@ -1,6 +1,5 @@
-package kaptainwutax.seedutils.lcg.rand;
+package kaptainwutax.seedutils.prng.lcg;
 
-import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.math.Mth;
 
 public class Rand {
