@@ -1,7 +1,10 @@
 package kaptainwutax.seedutils.prng;
 
+import kaptainwutax.seedutils.mc.seed.WorldSeed;
 import kaptainwutax.seedutils.prng.lcg.LCG;
 import kaptainwutax.seedutils.util.math.Mth;
+
+import java.util.SortedSet;
 
 public class SeedMixer {
 
@@ -20,20 +23,19 @@ public class SeedMixer {
 		this.steps = steps;
 	}
 
-	public static long mixSeed(long seed, long salt) {
-		seed *= seed * A + B;
-		seed += salt;
-		return seed;
-	}
-
 	public long nextSeed(long seed) {
 		if(this.steps >= 0) {
 			for(int i = 0; i < this.steps; i++) {
 				seed = mixSeed(seed, this.salt);
 			}
 		} else {
+			// Because a and b are odd, c must be even for a solution to exist.
+			if(((seed - this.salt) & 1) == 1) {
+				throw new UnsupportedOperationException("Seed " + seed + " is unreachable with salt " + this.salt);
+			}
+
 			for(int i = 0; i < -this.steps; i++) {
-				seed = solve(seed, this.salt)[0];
+				seed = unmixSeed(seed, this.salt, Solution.EVEN);
 			}
 		}
 
@@ -44,27 +46,28 @@ public class SeedMixer {
 		return new SeedMixer(this.salt, steps);
 	}
 
-	public static long[] solve(long seed, long salt) {
-		long c = salt - seed;
-
-		// Because a and b are odd, c must be even for a solution to exist.
-		if((c & 1) == 1) {
-			System.err.println("ur bad");
-			return new long[0];
-		}
-
-		//We expect 2 solutions, one even and one odd.
-		// i = 0 gives the even solution, i = 1 gives the odd solution.
-		// We only care about the even solution 99.9% of the time.
-		return new long[] {solveRoot(c, 0), solveRoot(c, 1)};
+	public static long mixSeed(long seed, long salt) {
+		seed *= seed * A + B;
+		seed += salt;
+		return seed;
 	}
 
-	public static long solveRoot(long c, long root) {
+	public static long unmixSeed(long seed, long salt, Solution solution) {
+		long r = solution.ordinal();
+
 		for(int j = 1; j < 64; j <<= 1) {
-			root = root - (A * root * root + B * root + c) * Mth.modInverse(2 * A * root + B, 64);
+			r = r - (A * r * r + B * r + salt - seed) * Mth.modInverse(2 * A * r + B, 64);
 		}
 
-		return root;
+		return r;
+	}
+
+	public enum Solution {
+		EVEN, ODD;
+
+		public static Solution of(long n) {
+			return values()[(int)(n & 1)];
+		}
 	}
 
 }
