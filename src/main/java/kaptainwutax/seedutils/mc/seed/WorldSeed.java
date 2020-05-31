@@ -23,8 +23,7 @@ public final class WorldSeed {
     }
 
     public static long getShadowSeed(long worldSeed) {
-        long nextSeed = SeedMixer.mixSeed(worldSeed, 0L);
-        return SeedMixer.unmixSeed(nextSeed, 0L, SeedMixer.Solution.of(~worldSeed));
+        return SeedMixer.getOtherSolution(worldSeed);
     }
 
     public static SeedIterator getSisterSeeds(long worldSeed) {

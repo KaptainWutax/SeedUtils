@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public enum MCVersion {
 
+	v1_16("1.16",16, 0, 0),
 	v1_15("1.15",15, 0, 0),
 	v1_14("1.14", 14, 0, 0),
 	v1_13("1.13", 13, 0, 0),
