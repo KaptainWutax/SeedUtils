@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 public final class WorldSeed {
 
     public static long toPillarSeed(long worldSeed) {
-        return StructureSeed.toPillarSeed(toStructureSeed(worldSeed));
+        return (worldSeed >>> 16) & Mth.MASK_16;
     }
 
     public static long toStructureSeed(long worldSeed) {
@@ -90,6 +90,10 @@ public final class WorldSeed {
         }
 
         return hashedWorldSeed;
+    }
+
+    public static SeedIterator iterator() {
+        return new SeedIterator(0L, 1L << 48);
     }
 
 }

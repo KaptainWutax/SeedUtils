@@ -33,11 +33,17 @@ public final class Mth {
 		return x & Mth.mask(k);
 	}
 
-	public static int max(int... values) {
-		if(values.length == 0) {
-			throw new UnsupportedOperationException();
+	public static int min(int... values) {
+		int min = values[0];
+
+		for(int i = 1; i < values.length; i++) {
+			min = Math.min(min, values[i]);
 		}
 
+		return min;
+	}
+
+	public static int max(int... values) {
 		int max = values[0];
 
 		for(int i = 1; i < values.length; i++) {
@@ -45,6 +51,21 @@ public final class Mth {
 		}
 
 		return max;
+	}
+
+	public static int floor(double d) {
+		int i = (int)d;
+		return d < (double)i ? i - 1 : i;
+	}
+
+	public static float clamp(int value, int min, int max) {
+		if(value < min)return min;
+		return Math.min(value, max);
+	}
+
+	public static float clamp(float value, float min, float max) {
+		if(value < min)return min;
+		return Math.min(value, max);
 	}
 
 }
