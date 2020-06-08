@@ -1,6 +1,6 @@
-package kaptainwutax.seedutils.prng;
+package kaptainwutax.seedutils.mc.seed;
 
-import kaptainwutax.seedutils.prng.lcg.LCG;
+import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.math.Mth;
 
 public class SeedMixer {

@@ -1,7 +1,6 @@
 package kaptainwutax.seedutils.mc.seed;
 
-import kaptainwutax.seedutils.prng.SeedMixer;
-import kaptainwutax.seedutils.prng.lcg.LCG;
+import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.SeedIterator;
 import kaptainwutax.seedutils.util.StringUnhasher;
 import kaptainwutax.seedutils.util.math.Mth;

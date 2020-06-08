@@ -1,7 +1,6 @@
-package kaptainwutax.seedutils.prng.lcg.java;
+package kaptainwutax.seedutils.lcg.rand;
 
-import kaptainwutax.seedutils.prng.lcg.LCG;
-import kaptainwutax.seedutils.prng.lcg.Rand;
+import kaptainwutax.seedutils.lcg.LCG;
 
 import java.util.Random;
 

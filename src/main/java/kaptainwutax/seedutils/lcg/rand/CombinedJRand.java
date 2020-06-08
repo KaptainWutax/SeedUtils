@@ -1,6 +1,6 @@
-package kaptainwutax.seedutils.prng.lcg.java;
+package kaptainwutax.seedutils.lcg.rand;
 
-import kaptainwutax.seedutils.prng.lcg.LCG;
+import kaptainwutax.seedutils.lcg.LCG;
 
 public class CombinedJRand extends JRand {
 
