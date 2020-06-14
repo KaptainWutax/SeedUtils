@@ -5,7 +5,7 @@ public class Vec3i {
 	public static final Vec3i ZERO = new Vec3i(0, 0, 0);
 	private final int x, y, z;
 
-	protected Vec3i(int x, int y, int z) {
+	public Vec3i(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
