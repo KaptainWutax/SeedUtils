@@ -22,6 +22,10 @@ public final class Mth {
 		return value << bits >> bits; //removes top bits and copies sign bits back down
 	}
 
+	public static long modInverse(long a) {
+		return modInverse(a, 64);
+	}
+
 	public static long modInverse(long a, int k) {
 		long x = ((((a << 1) ^ a) & 4) << 1) ^ a;
 

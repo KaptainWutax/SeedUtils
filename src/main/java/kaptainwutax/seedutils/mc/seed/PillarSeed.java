@@ -19,4 +19,8 @@ public final class PillarSeed {
         });
     }
 
+    public static SeedIterator iterator() {
+        return new SeedIterator(0L, 1L << 16);
+    }
+
 }

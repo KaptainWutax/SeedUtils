@@ -48,7 +48,7 @@ public final class WorldSeed {
         long seed = 7847617L * a - 18218081L * b;
 
         //Compute the nextLong() call fast without creating a JRand object.
-        long nextLong = (seed >>> 16 << 32) + (LCG.JAVA.nextSeed(seed) >>> 16);
+        long nextLong = (seed >>> 16 << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
         return nextLong == worldSeed;
     }
 
@@ -69,7 +69,7 @@ public final class WorldSeed {
 
         try {
             digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
+        } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
             return worldSeed;
         }
@@ -91,8 +91,11 @@ public final class WorldSeed {
         return hashedWorldSeed;
     }
 
-    public static SeedIterator iterator() {
-        return new SeedIterator(0L, 1L << 48);
+    public SeedIterator randomSeedsIterator() {
+        return new SeedIterator(0L, 1L << 48, seed -> {
+            //Compute the nextLong() call fast without creating a JRand object.
+            return (seed >>> 16 << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
+        });
     }
 
 }

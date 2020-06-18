@@ -21,7 +21,7 @@ public class SeedMixer {
 	 *
 	 * @see SeedMixer#getOtherSolution(long)
 	 * */
-	public static final long MAGIC = -B * Mth.modInverse(A, 64);
+	public static final long MAGIC = -B * Mth.modInverse(A);
 
 	public final long salt;
 	public final int steps;
