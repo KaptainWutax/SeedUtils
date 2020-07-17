@@ -21,7 +21,7 @@ public class StringUnhasher {
 		BigInteger bigMaxChar = BigInteger.valueOf(config.maxChar);
 
 		for(int size = config.minSize; size <= config.maxSize; size++) {
-			int overflowFrequency = calculateOverflowFrequency(size, config.maxChar);
+			int overflowFrequency = getOverflowFrequency(size, config.maxChar);
 
 			for(int i = 0; i <= overflowFrequency; i++) {
 				if(!search(size - 1, searchHash.add(OVERFLOW_CANCEL.multiply(BigInteger.valueOf(i))), 0,
@@ -74,7 +74,7 @@ public class StringUnhasher {
 		return true;
 	}
 
-	private static int calculateOverflowFrequency(int size, int maxChar) {
+	private static int getOverflowFrequency(int size, int maxChar) {
 		BigInteger u = BigInteger.valueOf(maxChar);
 
 		BigInteger highestHash = BigInteger.ZERO;
@@ -84,9 +84,8 @@ public class StringUnhasher {
 			highestHash = highestHash.multiply(_31).add(u);
 		}
 
-		while(highestHash.compareTo(MAX_INT) > 0) {
+		for(; highestHash.compareTo(MAX_INT) > 0; overflowCount++) {
 			highestHash = highestHash.subtract(MAX_INT);
-			++overflowCount;
 		}
 
 		return overflowCount;

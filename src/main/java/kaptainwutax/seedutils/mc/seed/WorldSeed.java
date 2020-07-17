@@ -93,7 +93,7 @@ public final class WorldSeed {
 
     public SeedIterator randomSeedsIterator() {
         return new SeedIterator(0L, 1L << 48, seed -> {
-            //Compute the nextLong() call fast without creating a JRand object.
+            //Compute the nextLong() call
             return (seed >>> 16 << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
         });
     }

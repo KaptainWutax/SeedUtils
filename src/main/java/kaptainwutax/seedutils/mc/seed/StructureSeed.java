@@ -1,5 +1,6 @@
 package kaptainwutax.seedutils.mc.seed;
 
+import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.SeedIterator;
 import kaptainwutax.seedutils.util.math.Mth;
 
@@ -8,8 +9,10 @@ import java.util.List;
 
 public final class StructureSeed {
 
+    private static final LCG SKIP_2 = LCG.JAVA.combine(2);
+
     public static long toPillarSeed(long structureSeed) {
-        return (structureSeed >>> 16) & Mth.MASK_16;
+        return SKIP_2.nextSeed(structureSeed ^ LCG.JAVA.multiplier) & Mth.MASK_16;
     }
 
     /**
