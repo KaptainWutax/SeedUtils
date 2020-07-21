@@ -100,6 +100,24 @@ public class LCG {
         return new LCG(multiplier, addend, this.modulus);
     }
 
+    public LCG combine(LCG lcg) {
+        if(this.modulus != lcg.modulus) {
+            throw new UnsupportedOperationException();
+        }
+
+        return new LCG(this.multiplier * lcg.multiplier, lcg.multiplier * this.addend + lcg.addend, this.modulus);
+    }
+
+    public static LCG combine(LCG... lcgs) {
+        LCG lcg = lcgs[0];
+
+        for(int i = 1; i < lcgs.length; i++) {
+            lcg = lcg.combine(lcgs[i]);
+        }
+
+        return lcg;
+    }
+
     public LCG invert() {
         return this.combine(-1);
     }
