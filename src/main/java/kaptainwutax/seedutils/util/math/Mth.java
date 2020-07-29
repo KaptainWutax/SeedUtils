@@ -23,6 +23,10 @@ public final class Mth {
 		return 1L << bits;
 	}
 
+	public static boolean isPowerOf2(long value) {
+		return (value & -value) == value;
+	}
+
 	public static long mask(int bits) {
 		if(bits >= 64) {
 			return ~0;

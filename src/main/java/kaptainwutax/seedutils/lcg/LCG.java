@@ -47,7 +47,7 @@ public class LCG {
         this.addend = addend;
         this.modulus = modulus;
 
-        this.isPowerOf2 = (this.modulus & -this.modulus) == this.modulus;
+        this.isPowerOf2 = Mth.isPowerOf2(this.modulus);
         this.trailingZeros = this.isPowerOf2 ? Long.numberOfTrailingZeros(this.modulus) : -1;
     }
 
@@ -129,7 +129,7 @@ public class LCG {
             return Mth.maskSigned(bFromZero - aFromZero, 64 - this.getModTrailingZeroes());
         }
 
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("DiscreteLog is not supported by this LCG");
     }
 
     @Override
@@ -137,9 +137,7 @@ public class LCG {
         if(obj == this)return true;
         if(!(obj instanceof LCG))return false;
         LCG lcg = (LCG)obj;
-        return this.multiplier == lcg.multiplier &&
-                this.addend == lcg.addend &&
-                this.modulus == lcg.modulus;
+        return this.multiplier == lcg.multiplier && this.addend == lcg.addend && this.modulus == lcg.modulus;
     }
 
     @Override
