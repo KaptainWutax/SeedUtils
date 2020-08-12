@@ -1,26 +1,30 @@
 package kaptainwutax.seedutils.util;
 
-import java.util.function.Consumer;
+import java.util.function.LongConsumer;
+import java.util.function.LongUnaryOperator;
+import java.util.stream.LongStream;
 
 public class SeedIterator {
-
-    private static final Mapper SELF = seed -> seed;
 
     protected final long min;
     protected final long max;
 
     protected long seed;
-    protected Mapper mapper;
+    protected LongUnaryOperator mapper;
 
     public SeedIterator(long min, long max) {
-        this(min, max, SELF);
+        this(min, max, LongUnaryOperator.identity());
     }
 
-    public SeedIterator(long min, long max, Mapper mapper) {
+    public SeedIterator(long min, long max, LongUnaryOperator mapper) {
         this.min = min;
         this.max = max;
         this.mapper = mapper;
         this.seed = this.min;
+    }
+
+    public LongUnaryOperator getMapper() {
+        return this.mapper;
     }
 
     public boolean hasNext() {
@@ -28,18 +32,21 @@ public class SeedIterator {
     }
 
     public long next() {
-        return this.mapper.map(this.seed++);
+        return this.mapper.applyAsLong(this.seed++);
     }
 
-    public void forEachRemaining(Consumer<Long> action) {
+    public void forEachRemaining(LongConsumer action) {
         while(this.hasNext()) {
             action.accept(this.next());
         }
     }
 
-    @FunctionalInterface
-    public interface Mapper {
-        long map(long seed);
+    public LongStream asStream() {
+        return LongStream.range(this.min, this.max).map(this.mapper);
+    }
+
+    public LongStream streamRemaining() {
+        return LongStream.range(this.seed, this.max).map(this.mapper);
     }
 
 }

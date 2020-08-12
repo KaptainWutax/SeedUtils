@@ -1,6 +1,6 @@
 package kaptainwutax.seedutils.lcg;
 
-import kaptainwutax.seedutils.util.math.Mth;
+import kaptainwutax.mathutils.util.Mth;
 
 import java.util.Objects;
 
@@ -122,11 +122,11 @@ public class LCG {
         return this.combine(-1);
     }
 
-    public long distance(long seedA, long seedB) {
+    public long distance(long seed1, long seed2) {
         if(DiscreteLog.supports(this)) {
-            long aFromZero = DiscreteLog.distanceFromZero(this, seedA);
-            long bFromZero = DiscreteLog.distanceFromZero(this, seedB);
-            return Mth.maskSigned(bFromZero - aFromZero, 64 - this.getModTrailingZeroes());
+            long aFromZero = DiscreteLog.distanceFromZero(this, seed1);
+            long bFromZero = DiscreteLog.distanceFromZero(this, seed2);
+            return Mth.maskSigned(bFromZero - aFromZero, this.getModTrailingZeroes());
         }
 
         throw new UnsupportedOperationException("DiscreteLog is not supported by this LCG");

@@ -130,6 +130,45 @@ public class JRand extends Rand {
 		return new Random(this.getSeed() ^ LCG.JAVA.multiplier);
 	}
 
+	public static boolean nextBoolean(long seed) {
+		return ((seed >>> 47) & 1) == 1;
+	}
+
+	public static int nextInt(long seed) {
+		return (int)(seed >>> 16);
+	}
+
+	public static int nextInt(long seed, int bound) {
+		if(bound <= 0) {
+			throw new IllegalArgumentException("bound must be positive");
+		}
+
+		if((bound & -bound) == bound) {
+			return (int)((bound * seed) >> 31);
+		}
+
+		int bits, value;
+
+		do {
+			bits = (int)(LCG.JAVA.nextSeed(seed) >>> 17);
+			value = bits % bound;
+		} while(bits - value + (bound - 1) < 0);
+
+		return value;
+	}
+
+	public static float nextFloat(long seed) {
+		return (int)(seed >>> 24) / ((float)(1 << 24));
+	}
+
+	public static long nextLong(long seed) {
+		return (seed >>> 16 << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
+	}
+
+	public static double nextDouble(long seed) {
+		return (((long)((int)(seed >>> 22)) << 27) + (int)(LCG.JAVA.nextSeed(seed) >>> 21)) * DOUBLE_UNIT;
+	}
+
 	private static final class RandomWrapper extends Random {
 		private final JRand delegate;
 

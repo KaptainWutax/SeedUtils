@@ -1,9 +1,9 @@
 package kaptainwutax.seedutils.mc.seed;
 
-import kaptainwutax.seedutils.lcg.LCG;
+import kaptainwutax.mathutils.util.Mth;
+import kaptainwutax.seedutils.lcg.rand.JRand;
 import kaptainwutax.seedutils.util.SeedIterator;
 import kaptainwutax.seedutils.util.StringUnhasher;
-import kaptainwutax.seedutils.util.math.Mth;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +15,10 @@ public final class WorldSeed {
 
     public static long toPillarSeed(long worldSeed) {
         return StructureSeed.toPillarSeed(worldSeed);
+    }
+
+    public static boolean isStructureSeed(long worldSeed) {
+        return WorldSeed.toStructureSeed(worldSeed) == worldSeed;
     }
 
     public static long toStructureSeed(long worldSeed) {
@@ -47,9 +51,7 @@ public final class WorldSeed {
         long b = (-4824621L * upperBits + 7847617L * lowerBits + 7847617L) >> 32;
         long seed = 7847617L * a - 18218081L * b;
 
-        //Compute the nextLong() call fast without creating a JRand object.
-        long nextLong = (seed >>> 16 << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
-        return nextLong == worldSeed;
+        return JRand.nextLong(seed) == worldSeed;
     }
 
     public static List<Long> fromHash(long structureSeed, long hashedWorldSeed) {
@@ -92,10 +94,7 @@ public final class WorldSeed {
     }
 
     public SeedIterator randomSeedsIterator() {
-        return new SeedIterator(0L, 1L << 48, seed -> {
-            //Compute the nextLong() call
-            return (seed >>> 16 << 32) + (int)(LCG.JAVA.nextSeed(seed) >>> 16);
-        });
+        return new SeedIterator(0L, 1L << 48, JRand::nextLong);
     }
 
 }

@@ -1,6 +1,6 @@
 package kaptainwutax.seedutils.lcg;
 
-import kaptainwutax.seedutils.util.math.Mth;
+import kaptainwutax.mathutils.util.Mth;
 
 import java.math.BigInteger;
 
@@ -22,7 +22,7 @@ public class DiscreteLog {
 		long b = (((seed * (lcg.multiplier - 1)) * Mth.modInverse(lcg.addend, exp)) + 1) & ((1L << (exp + 2)) - 1);
 		long aBar = theta(a, exp);
 		long bBar = theta(b, exp);
-		return bBar * Mth.modInverse(aBar, exp) & Mth.mask(exp);
+		return bBar * Mth.modInverse(aBar, exp) & Mth.getMask(exp);
 	}
 
 	private static long theta(long number, int exp) {

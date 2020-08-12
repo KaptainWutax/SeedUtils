@@ -1,5 +1,7 @@
 package kaptainwutax.seedutils.util.math;
 
+import kaptainwutax.mathutils.util.Mth;
+
 @FunctionalInterface
 public interface DistanceMetric {
 

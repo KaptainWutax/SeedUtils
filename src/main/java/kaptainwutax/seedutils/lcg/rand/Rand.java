@@ -1,7 +1,7 @@
 package kaptainwutax.seedutils.lcg.rand;
 
+import kaptainwutax.mathutils.util.Mth;
 import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.util.math.Mth;
 
 public class Rand {
 
@@ -36,7 +36,7 @@ public class Rand {
             return this.seed >>> (this.lcg.getModTrailingZeroes() - bits);
         }
 
-        return this.seed / Mth.pow2(bits);
+        return this.seed / Mth.getPow2(bits);
     }
 
     public void advance(long calls) {

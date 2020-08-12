@@ -32,4 +32,10 @@ public class BPos extends Vec3i {
 		return new CPos(this.getX() >> 4, this.getZ() >> 4);
 	}
 
+	public RPos toRegionPos(int regionSize) {
+		int x = this.getX() < 0 ? this.getX() - regionSize + 1 : this.getX();
+		int z = this.getZ() < 0 ? this.getZ() - regionSize + 1 : this.getZ();
+		return new RPos(x / regionSize, z / regionSize, regionSize);
+	}
+
 }

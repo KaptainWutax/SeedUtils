@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 public enum MCVersion {
 
+	v1_16_2("1.16.2", 16, 2), //August 11, 2020
 	v1_16_1("1.16.1", 16, 1), //June 24, 2020
 	v1_16("1.16",16, 0), //June 23, 2020
 

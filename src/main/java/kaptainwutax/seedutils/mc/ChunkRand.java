@@ -1,8 +1,9 @@
 package kaptainwutax.seedutils.mc;
 
+import kaptainwutax.mathutils.util.Mth;
 import kaptainwutax.seedutils.lcg.rand.JRand;
+import kaptainwutax.seedutils.mc.seed.RegionSeed;
 import kaptainwutax.seedutils.util.UnsupportedVersion;
-import kaptainwutax.seedutils.util.math.Mth;
 
 public class ChunkRand extends JRand {
 
@@ -150,7 +151,7 @@ public class ChunkRand extends JRand {
 	 * @return The region seed
 	 */
 	public long setRegionSeed(long worldSeed, int regionX, int regionZ, int salt, MCVersion version) {
-		long seed = (long)regionX * 341873128712L + (long)regionZ * 132897987541L + worldSeed + (long)salt;
+		long seed = (long)regionX * RegionSeed.A + (long)regionZ * RegionSeed.B + worldSeed + (long)salt;
 		this.setSeed(seed);
 		return seed & Mth.MASK_48;
 	}

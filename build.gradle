@@ -4,8 +4,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {url "https://jitpack.io"}
 }
 
 dependencies {
-
+    implementation 'com.github.KaptainWutax:MathUtils:-SNAPSHOT'
 }

@@ -1,8 +1,8 @@
 package kaptainwutax.seedutils.mc.seed;
 
+import kaptainwutax.mathutils.util.Mth;
 import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.SeedIterator;
-import kaptainwutax.seedutils.util.math.Mth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +11,18 @@ public final class StructureSeed {
 
     private static final LCG SKIP_2 = LCG.JAVA.combine(2);
 
+    /**
+     * Converts a structure seed to a pillar seed.
+     * */
     public static long toPillarSeed(long structureSeed) {
-        return SKIP_2.nextSeed(structureSeed ^ LCG.JAVA.multiplier) & Mth.MASK_16;
+        return (SKIP_2.nextSeed(structureSeed ^ LCG.JAVA.multiplier) >>> 16) & Mth.MASK_16;
     }
 
     /**
      * Appends the upper bits to the structure seed to create a world seed.
      * */
     public static long toWorldSeed(long structureSeed, long upperBits) {
-        return upperBits << 48 | structureSeed;
+        return upperBits << 48 | WorldSeed.toStructureSeed(structureSeed);
     }
 
     /**
@@ -31,7 +34,7 @@ public final class StructureSeed {
         List<Long> randomWorldSeeds = new ArrayList<>();
 
         //TODO: You can do better than brute-force. Smh...
-        getWorldSeeds(structureSeed).forEachRemaining(worldSeed -> {
+        StructureSeed.getWorldSeeds(structureSeed).forEachRemaining(worldSeed -> {
             if(WorldSeed.isRandom(worldSeed)) {
                 randomWorldSeeds.add(worldSeed);
             }

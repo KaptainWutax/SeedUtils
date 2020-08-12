@@ -1,7 +1,7 @@
 package kaptainwutax.seedutils.mc.seed;
 
+import kaptainwutax.mathutils.util.Mth;
 import kaptainwutax.seedutils.lcg.LCG;
-import kaptainwutax.seedutils.util.math.Mth;
 
 public class SeedMixer {
 
