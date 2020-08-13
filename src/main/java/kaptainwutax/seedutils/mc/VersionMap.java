@@ -18,7 +18,7 @@ public class VersionMap<V> extends AbstractMap<MCVersion, V> {
 
 	@Override
 	public V put(MCVersion key, V value) {
-		for(Map.Entry<MCVersion, V> e: this.entrySet()) {
+		for(Entry<V> e: this.entries) {
 			if(e.getKey() == key)return e.setValue(value);
 		}
 
@@ -30,12 +30,28 @@ public class VersionMap<V> extends AbstractMap<MCVersion, V> {
 	public V getAsOf(MCVersion version) {
 		V value = null;
 
-		for(Map.Entry<MCVersion, V> e: this.entrySet()) {
+		for(Entry<V> e: this.entries) {
 			if(e.getKey().isNewerThan(version))break;
 			value = e.getValue();
 		}
 
 		return value;
+	}
+
+	public V getLatest() {
+		return this.entries.get(this.entries.size() - 1).getValue();
+	}
+
+	public MCVersion getLatestVersion() {
+		return this.entries.get(this.entries.size() - 1).getKey();
+	}
+
+	public V getOldest() {
+		return this.entries.get(0).getValue();
+	}
+
+	public MCVersion getOldestVersion() {
+		return this.entries.get(0).getKey();
 	}
 
 	protected void sort() {

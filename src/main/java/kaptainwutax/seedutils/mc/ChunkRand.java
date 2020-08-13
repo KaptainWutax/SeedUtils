@@ -91,11 +91,23 @@ public class ChunkRand extends JRand {
 	 * @return The decorator seed
 	 */
 	public long setDecoratorSeed(long populationSeed, int index, int step, MCVersion version) {
+		return this.setDecoratorSeed(populationSeed, index + 10000 * step, version);
+	}
+
+	/**
+	 * @see ChunkRand#setDecoratorSeed(long, int, int, MCVersion)
+	 *
+	 * @param populationSeed The population seed (or at the very least its 48 lowest bits)
+	 * @param salt The salt of the feature equal to {@code index + 10000 * step}
+	 * @param version The Minecraft version to use by the algorithm
+	 * @return The decorator seed
+	 */
+	public long setDecoratorSeed(long populationSeed, int salt, MCVersion version) {
 		if(version.isOlderThan(MCVersion.v1_13)) {
 			throw new UnsupportedVersion(version, "decorator seed");
 		}
 
-		long seed = populationSeed + (long)index + (long)(10000 * step);
+		long seed = populationSeed + salt;
 		this.setSeed(seed);
 		return seed & Mth.MASK_48;
 	}
@@ -114,6 +126,21 @@ public class ChunkRand extends JRand {
 	public long setDecoratorSeed(long worldSeed, int blockX, int blockZ, int index, int step, MCVersion version) {
 		long populationSeed = this.setPopulationSeed(worldSeed, blockX, blockZ, version);
 		return this.setDecoratorSeed(populationSeed, index, step, version);
+	}
+
+	/**
+	 * @see ChunkRand#setDecoratorSeed(long, int, int, MCVersion)
+	 *
+	 * @param worldSeed The population seed (or at the very least its 48 lowest bits)
+	 * @param blockX The X coordinate of the negative-most block in the chunk
+	 * @param blockZ The Z coordinate of the negative-most block in the chunk
+	 * @param salt The salt of the feature equal to {@code index + 10000 * step}
+	 * @param version The Minecraft version to use by the algorithm
+	 * @return The decorator seed
+	 */
+	public long setDecoratorSeed(long worldSeed, int blockX, int blockZ, int salt, MCVersion version) {
+		long populationSeed = this.setPopulationSeed(worldSeed, blockX, blockZ, version);
+		return this.setDecoratorSeed(populationSeed, salt, version);
 	}
 
 	/**

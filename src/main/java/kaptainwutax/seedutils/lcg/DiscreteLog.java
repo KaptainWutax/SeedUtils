@@ -6,9 +6,6 @@ import java.math.BigInteger;
 
 public class DiscreteLog {
 
-	private static final BigInteger ONE = BigInteger.valueOf(1L);
-	private static final BigInteger TWO = BigInteger.valueOf(2L);
-
 	public static boolean supports(LCG lcg) {
 		if(!lcg.isModPowerOf2() || lcg.getModTrailingZeroes() > 61)return false;
 		if(lcg.multiplier % 2 == 0 || lcg.addend % 2 == 0)return false;
@@ -19,22 +16,22 @@ public class DiscreteLog {
 		int exp = lcg.getModTrailingZeroes();
 
 		long a = lcg.multiplier;
-		long b = (((seed * (lcg.multiplier - 1)) * Mth.modInverse(lcg.addend, exp)) + 1) & ((1L << (exp + 2)) - 1);
+		long b = Mth.mask(seed * (lcg.multiplier - 1) * Mth.modInverse(lcg.addend, exp) + 1, exp + 2);
 		long aBar = theta(a, exp);
 		long bBar = theta(b, exp);
-		return bBar * Mth.modInverse(aBar, exp) & Mth.getMask(exp);
+		return bBar * Mth.mask(Mth.modInverse(aBar, exp), exp);
 	}
 
 	private static long theta(long number, int exp) {
 		if(number % 4 == 3) {
-			number = (1L << (exp + 2)) - number;
+			number = Mth.getPow2(exp + 2) - number;
 		}
 
 		BigInteger xHat = BigInteger.valueOf(number);
-		xHat = xHat.modPow(TWO.pow(exp + 1), TWO.pow(2 * exp + 3));
-		xHat = xHat.subtract(ONE);
-		xHat = xHat.divide(TWO.pow(exp + 3));
-		xHat = xHat.mod(TWO.pow(exp));
+		xHat = xHat.modPow(BigInteger.ONE.shiftLeft(exp + 1), BigInteger.ONE.shiftLeft(2 * exp + 3));
+		xHat = xHat.subtract(BigInteger.ONE);
+		xHat = xHat.divide(BigInteger.ONE.shiftLeft(exp + 3));
+		xHat = xHat.mod(BigInteger.ONE.shiftLeft(exp));
 		return xHat.longValue();
 	}
 

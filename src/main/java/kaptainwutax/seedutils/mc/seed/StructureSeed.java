@@ -1,7 +1,5 @@
 package kaptainwutax.seedutils.mc.seed;
 
-import kaptainwutax.mathutils.util.Mth;
-import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.util.SeedIterator;
 
 import java.util.ArrayList;
@@ -9,13 +7,13 @@ import java.util.List;
 
 public final class StructureSeed {
 
-    private static final LCG SKIP_2 = LCG.JAVA.combine(2);
-
     /**
      * Converts a structure seed to a pillar seed.
+     *
+     * @see PillarSeed#fromStructureSeed(long)
      * */
     public static long toPillarSeed(long structureSeed) {
-        return (SKIP_2.nextSeed(structureSeed ^ LCG.JAVA.multiplier) >>> 16) & Mth.MASK_16;
+        return PillarSeed.fromStructureSeed(structureSeed);
     }
 
     /**

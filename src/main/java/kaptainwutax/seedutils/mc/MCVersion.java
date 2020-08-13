@@ -53,7 +53,8 @@ public enum MCVersion {
 	v1_8_1("1.8.1", 8, 1), //November 24, 2014
 	v1_8("1.8", 8, 0); //September 2, 2014
 
-	private static Map<String, MCVersion> STRING_TO_VERSION = Arrays.stream(values()).collect(Collectors.toMap(MCVersion::toString, o -> o));
+	private static Map<String, MCVersion> STRING_TO_VERSION = Arrays.stream(values())
+			.collect(Collectors.toMap(MCVersion::toString, o -> o));
 
 	public final String name;
 	public final int release;
