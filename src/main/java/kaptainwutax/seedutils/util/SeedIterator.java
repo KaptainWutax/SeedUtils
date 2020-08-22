@@ -1,5 +1,6 @@
 package kaptainwutax.seedutils.util;
 
+import java.util.Iterator;
 import java.util.function.LongConsumer;
 import java.util.function.LongUnaryOperator;
 import java.util.stream.LongStream;
@@ -47,6 +48,20 @@ public class SeedIterator {
 
     public LongStream streamRemaining() {
         return LongStream.range(this.seed, this.max).map(this.mapper);
+    }
+
+    public Iterator<Long> boxed() {
+        return new Iterator<Long>() {
+            @Override
+            public boolean hasNext() {
+                return SeedIterator.this.hasNext();
+            }
+
+            @Override
+            public Long next() {
+                return SeedIterator.this.next();
+            }
+        };
     }
 
 }
