@@ -43,6 +43,13 @@ public class ThreadPool {
         iterator.forEachRemaining(t -> this.run(() -> action.accept(t)));
     }
 
+    public void awaitFreeThread() {
+        while(this.activeCount.get() >= this.getThreadCount()) {
+            try {Thread.sleep(5);}
+            catch(InterruptedException ignored) {}
+        }
+    }
+
     public void awaitCompletion() {
         while(this.activeCount.get() != 0) {
             try {Thread.sleep(5);}
