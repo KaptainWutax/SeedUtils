@@ -11,11 +11,11 @@ public enum Dimension {
     private static final Map<String, Dimension> STRING_TO_DIMENSION = Arrays.stream(values())
             .collect(Collectors.toMap(Dimension::toString, o -> o));
 
-    public final String dim_name;
+    private final String name;
     public final int id;
 
-    Dimension(String dim_name, int id) {
-        this.dim_name = dim_name;
+    Dimension(String name, int id) {
+        this.name = name;
         this.id = id;
     }
 
@@ -25,7 +25,10 @@ public enum Dimension {
 
     @Override
     public String toString() {
-        return this.dim_name;
+        return this.name;
     }
 
+    public String getName() {
+        return name;
+    }
 }
