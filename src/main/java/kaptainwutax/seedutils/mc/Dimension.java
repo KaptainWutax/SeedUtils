@@ -19,8 +19,8 @@ public enum Dimension {
         this.id = id;
     }
 
-    public static Dimension fromString(String dim_name) {
-        return STRING_TO_DIMENSION.get(dim_name);
+    public static Dimension fromString(String name) {
+        return STRING_TO_DIMENSION.get(name);
     }
 
     @Override
