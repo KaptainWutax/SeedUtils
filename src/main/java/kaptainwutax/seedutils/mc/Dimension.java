@@ -8,7 +8,7 @@ public enum Dimension {
 
     OVERWORLD("overworld", 0), NETHER("nether", 1), END("end", -1);
 
-    private static final Map<String, Dimension> STRING_TO_DIMENSION = Arrays.stream(values())
+    private static Map<String, Dimension> STRING_TO_DIMENSION = Arrays.stream(values())
             .collect(Collectors.toMap(Dimension::toString, o -> o));
 
     private final String name;
