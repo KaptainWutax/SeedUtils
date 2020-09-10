@@ -150,8 +150,9 @@ public class JRand extends Rand {
 		int bits, value;
 
 		do {
-			bits = (int)(LCG.JAVA.nextSeed(seed) >>> 17);
+			bits = (int)(seed >>> 17);
 			value = bits % bound;
+			seed = LCG.JAVA.nextSeed(seed);
 		} while(bits - value + (bound - 1) < 0);
 
 		return value;
