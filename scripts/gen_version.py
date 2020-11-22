@@ -40,7 +40,8 @@ with open("version_manifest.json") as file:
     convert_to_enum=lambda s:"v"+"_".join(s.split("."))
     major_minor=lambda s:(s.split(".")[1],s.split(".")[2] if len(s.split("."))==3 else "0")
     convert_to_time=lambda s:datetime.datetime.strptime(s.split("T")[0], '%Y-%m-%d').strftime("%B %m, %Y").replace(" 0", " ")
-    last_major=major_minor(jq["latest"]["release"])[0]
+    # last_major=major_minor(jq["latest"]["release"])[0]
+    last_major=None
     for i, version in enumerate(versions):
         if typf(version.get("type"))=="RELEASE":
             vid=version.get("id")
@@ -48,10 +49,11 @@ with open("version_manifest.json") as file:
             major,minor=major_minor(vid)
             string_time=convert_to_time(vtime)
             enum_string=convert_to_enum(vid)
-            print(f'{enum_string}("{vid}", {major}, {minor}), //{string_time}')
             if last_major!=major:
                 print()
                 last_major=major
+            print(f'{enum_string}("{vid}", {major}, {minor}), //{string_time}')
+
 
 print(";")
 os.remove("version_manifest.json")
