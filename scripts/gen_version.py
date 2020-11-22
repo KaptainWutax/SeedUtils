@@ -39,7 +39,7 @@ with open("version_manifest.json") as file:
         if typ == "old_alpha" else "OLD_BETA" if typ == "old_beta" else "NONE"
     convert_to_enum=lambda s:"v"+"_".join(s.split("."))
     major_minor=lambda s:(s.split(".")[1],s.split(".")[2] if len(s.split("."))==3 else "0")
-    convert_to_time=lambda s:datetime.datetime.strptime(s.split("T")[0], '%Y-%m-%d').strftime("%B %m, %Y").replace(" 0", " ")
+    convert_to_time=lambda s:datetime.datetime.strptime(s.split("T")[0], '%Y-%m-%d').strftime("%B %d, %Y").replace(" 0", " ")
     # last_major=major_minor(jq["latest"]["release"])[0]
     last_major=None
     for i, version in enumerate(versions):
