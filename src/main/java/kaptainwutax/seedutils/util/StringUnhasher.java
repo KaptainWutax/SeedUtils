@@ -7,9 +7,16 @@ public class StringUnhasher {
 
 	private static final BigInteger _2 = BigInteger.valueOf(2L);
 	private static final BigInteger _31 = BigInteger.valueOf(31L);
+	private static final BigInteger[] POW_31 = new BigInteger[64];
 
 	private static final BigInteger MAX_INT = BigInteger.valueOf(0x7FFFFFFFL);
 	private static final BigInteger OVERFLOW_CANCEL = MAX_INT.multiply(_2).add(_2);
+
+	static {
+		for(int i = 0; i < POW_31.length; i++) {
+			POW_31[i] = _31.pow(i);
+		}
+	}
 
 	public static Config newConfig() {
 		return new Config();
@@ -32,10 +39,10 @@ public class StringUnhasher {
 		}
 	}
 
-	private static boolean search(int maxDepth, BigInteger maxHash, int currentDepth, BigInteger currentHash, char[] currentString,
+	private static boolean search(int maxDepth, BigInteger target, int currentDepth, BigInteger currentHash, char[] currentString,
 	                           BigInteger minChar, BigInteger maxChar, Predicate<Character> filter, Predicate<String> loopPredicate) {
 		if(currentDepth == maxDepth) {
-			BigInteger lastChar = maxHash.subtract(currentHash);
+			BigInteger lastChar = target.subtract(currentHash);
 			if(lastChar.compareTo(minChar) < 0 || lastChar.compareTo(maxChar) > 0)return true;
 			char c =(char)lastChar.intValue();
 			if(!filter.test(c))return true;
@@ -45,19 +52,20 @@ public class StringUnhasher {
 		}
 
 		int currentExponent = maxDepth - currentDepth;
-		BigInteger currentMultiplier = _31.pow(currentExponent);
+		BigInteger currentMultiplier = POW_31[currentExponent];
 
 		BigInteger minAddEnd = BigInteger.ZERO;
 		BigInteger maxAddEnd = BigInteger.ZERO;
 
 		for(int i = currentExponent - 1; i >= 0; i--) {
-			BigInteger multiplier = _31.pow(i);
+			BigInteger multiplier = POW_31[currentExponent];
 			minAddEnd = minAddEnd.add(minChar.multiply(multiplier));
 			maxAddEnd = maxAddEnd.add(maxChar.multiply(multiplier));
 		}
 
-		BigInteger currentMinChar = (maxHash.subtract(currentHash).subtract(maxAddEnd)).divide(currentMultiplier);
-		BigInteger currentMaxChar = (maxHash.subtract(currentHash).subtract(minAddEnd)).divide(currentMultiplier);
+		BigInteger[] res = target.subtract(currentHash).subtract(maxAddEnd).divideAndRemainder(currentMultiplier);
+		BigInteger currentMinChar = res[1].signum() == 0 ? res[0] : res[0].add(BigInteger.ONE);
+		BigInteger currentMaxChar = target.subtract(currentHash).subtract(minAddEnd).divide(currentMultiplier);
 
 		if(currentMinChar.compareTo(minChar) < 0 || currentMaxChar.compareTo(maxChar) > 0)return true;
 
@@ -65,7 +73,7 @@ public class StringUnhasher {
 			char c =(char)i.intValue();
 			if(!filter.test(c))continue;
 			currentString[currentDepth] = c;
-			if(!search(maxDepth, maxHash, currentDepth + 1,
+			if(!search(maxDepth, target, currentDepth + 1,
 					currentHash.add(i.multiply(currentMultiplier)), currentString, minChar, maxChar, filter, loopPredicate)) {
 				return false;
 			}

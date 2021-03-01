@@ -38,7 +38,7 @@ public class ThreadPool {
     public <T> void iterate(Iterable<T> iterable, Consumer<T> action) {
         iterable.forEach(t -> this.run(() -> action.accept(t)));
     }
-
+ 
     public <T> void iterate(Iterator<T> iterator, Consumer<T> action) {
         iterator.forEachRemaining(t -> this.run(() -> action.accept(t)));
     }

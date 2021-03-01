@@ -8,5 +8,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.KaptainWutax:MathUtils:-SNAPSHOT'
+    implementation 'com.github.KaptainWutax:MathUtils:5531c4a87b0f1bb85d1dab2bdd18ce375400626a'
 }

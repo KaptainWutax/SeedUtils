@@ -26,7 +26,8 @@ public class LCG {
 
     public static final LCG JAVA = new LCG(25214903917L, 11L, 1L << 48);
 
-    public static final LCG JAVA_UNIQUIFIER = new LCG(181783497276652981L, 0L);
+    public static final LCG JAVA_UNIQUIFIER_OLD = new LCG(181783497276652981L, 0L);
+    public static final LCG JAVA_UNIQUIFIER_NEW = new LCG(1181783497276652981L, 0L);
     public static final LCG MMIX = new LCG(6364136223846793005L, 1442695040888963407L);
     public static final LCG NEWLIB_C = new LCG(6364136223846793005L, 1L);
     public static final LCG XKCD = new LCG(0L, 4L);

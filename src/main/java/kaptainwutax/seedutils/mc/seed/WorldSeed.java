@@ -1,6 +1,7 @@
 package kaptainwutax.seedutils.mc.seed;
 
 import kaptainwutax.mathutils.util.Mth;
+import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.lcg.rand.JRand;
 import kaptainwutax.seedutils.util.SeedIterator;
 import kaptainwutax.seedutils.util.StringUnhasher;
