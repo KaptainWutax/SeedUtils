@@ -111,6 +111,7 @@ public class JRand extends Rand {
 	}
 
 	public CombinedJRand combine(long steps) {
+		counter+=steps; // this is because the combine method of super is not used
 		return new CombinedJRand(steps, this.getSeed(), false);
 	}
 

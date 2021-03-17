@@ -5,7 +5,7 @@ import kaptainwutax.seedutils.lcg.LCG;
 
 public class Rand {
 
-    private long counter=0;
+    protected long counter=0;
     private final LCG lcg;
     private long seed;
 
