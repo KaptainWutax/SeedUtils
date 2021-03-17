@@ -5,6 +5,7 @@ import kaptainwutax.seedutils.lcg.LCG;
 
 public class Rand {
 
+    private long counter=0;
     private final LCG lcg;
     private long seed;
 
@@ -19,6 +20,11 @@ public class Rand {
 
     public void setSeed(long seed) {
         this.seed = seed;
+        this.counter=0;
+    }
+
+    public long getCounter() {
+        return counter;
     }
 
     public long getSeed() {
@@ -26,6 +32,7 @@ public class Rand {
     }
 
     public long nextSeed() {
+        this.counter++;
         return this.seed = this.lcg.nextSeed(this.seed);
     }
 
@@ -40,10 +47,12 @@ public class Rand {
     }
 
     public void advance(long calls) {
+        this.counter+=calls;
         this.advance(this.lcg.combine(calls));
     }
 
     public void advance(LCG skip) {
+        // this call if called directly is not covered by the counter
         this.seed = skip.nextSeed(this.seed);
     }
 
