@@ -20,6 +20,15 @@ public class BlockBox {
         this.maxZ = maxZ;
     }
 
+    public BlockBox(int xMin, int zMin, int xMax, int zMax) {
+        this.minX = xMin;
+        this.minZ = zMin;
+        this.maxX = xMax;
+        this.maxZ = zMax;
+        this.minY = 1;
+        this.maxY = 512;
+    }
+
     public BlockBox(Vec3i v1, Vec3i v2) {
         this.minX = Math.min(v1.getX(), v2.getX());
         this.minY = Math.min(v1.getY(), v2.getY());
