@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public enum MCVersion {
+
+	v1_16_5("1.16.5", 16, 5), //January 14, 2021
 	v1_16_4("1.16.4", 16, 4), //October 29, 2020
 	v1_16_3("1.16.3", 16, 3), //September 10, 2020
 	v1_16_2("1.16.2", 16, 2), //August 11, 2020
@@ -91,7 +93,7 @@ public enum MCVersion {
 	v1_0("1.0", 0, 0), //November 17, 2011
 	;
 
-	private static Map<String, MCVersion> STRING_TO_VERSION = Arrays.stream(values())
+	private static final Map<String, MCVersion> STRING_TO_VERSION = Arrays.stream(values())
 			.collect(Collectors.toMap(MCVersion::toString, o -> o));
 
 	public final String name;
