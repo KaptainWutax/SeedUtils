@@ -310,7 +310,7 @@ public class JRand extends Rand {
 		private static long getSeedReflected(JRand rand){
 			if (rand==null)return 0;
 			try {
-				Field seed=rand.getClass().getSuperclass().getDeclaredField("seed");
+				Field seed=Rand.class.getDeclaredField("seed");
 				seed.setAccessible(true);
 				return (long)seed.get(rand);
 			} catch (IllegalAccessException | NoSuchFieldException e) {
@@ -325,7 +325,7 @@ public class JRand extends Rand {
 				return null;
 			}
 			try {
-				Field lcg=rand.getClass().getSuperclass().getDeclaredField("lcg");
+				Field lcg=Rand.class.getDeclaredField("lcg");
 				lcg.setAccessible(true);
 				return (LCG)lcg.get(rand);
 			} catch (IllegalAccessException | NoSuchFieldException e) {
