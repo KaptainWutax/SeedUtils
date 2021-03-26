@@ -19,6 +19,10 @@ public class ChunkRand extends JRand {
 		super(seed, scramble);
 	}
 
+	public ChunkRand.Debugger asChunkRandDebugger() {
+		return new ChunkRand.Debugger(this);
+	}
+
 	/**
 	 * Seeds the randomizer to generate the surface terrain blocks (such as grass, sand, etc.) and
 	 * the bedrock patterns. Note that the terrain seed does not depend on the world seed and is only
@@ -235,4 +239,12 @@ public class ChunkRand extends JRand {
 		return this.setSlimeSeed(worldSeed, chunkX, chunkZ, 987234911L, version);
 	}
 
+
+	public static final class Debugger extends ChunkRand {
+		public JRand.Debugger debugger;
+
+		public Debugger(JRand delegate ) {
+			this.debugger=delegate.asDebugger();
+		}
+	}
 }
