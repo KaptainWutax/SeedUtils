@@ -46,6 +46,61 @@ public enum Direction {
 		return BY_2D_DATA;
 	}
 	
+	public static Direction getOpposite(Direction direction){
+		switch(direction){
+			case DOWN:
+				return UP;
+			case UP:
+				return DOWN;
+			case NORTH:
+				return SOUTH;
+			case SOUTH:
+				return NORTH;
+			case WEST:
+				return EAST;
+			case EAST:
+				return WEST;
+			default:
+				return null;
+		}
+	}
+
+	public static Direction getClockWise(Direction direction){
+		switch(direction){
+			case NORTH:
+				return EAST;
+			case EAST:
+				return SOUTH;
+			case SOUTH:
+				return WEST;
+			case WEST:
+				return NORTH;
+			case DOWN:
+			case UP:
+				throw new IllegalStateException("Unable to rotate Y Axis directions ");
+			default:
+				return null;
+		}
+	}
+
+	public static Direction getCounterClockWise(Direction direction){
+		switch(direction){
+			case NORTH:
+				return WEST;
+			case WEST:
+				return SOUTH;
+			case SOUTH:
+				return EAST;
+			case EAST:
+				return NORTH;
+			case DOWN:
+			case UP:
+				throw new IllegalStateException("Unable to rotate Y Axis directions ");
+			default:
+				return null;
+		}
+	}
+	
 	public enum Axis {
 		X, Y, Z
 	}
