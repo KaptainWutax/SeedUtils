@@ -37,6 +37,14 @@ public enum Direction {
 	public static Direction random2D(JRand rand) {
         	return BY_2D_DATA[rand.nextInt(BY_2D_DATA.length)];
 	}
+
+	public static Direction[] getHorizontal(){
+		return HORIZONTALS;
+	}
+
+	public static Direction[] get2d(){
+		return BY_2D_DATA;
+	}
 	
 	public enum Axis {
 		X, Y, Z
