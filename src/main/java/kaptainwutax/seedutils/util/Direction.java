@@ -13,6 +13,7 @@ public enum Direction {
     EAST(Axis.X, new Vec3i(1, 0, 0));
 	
 	private static Direction[] HORIZONTALS = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+	private static Direction[] BY_2D_DATA = {Direction.SOUTH, Direction.WEST, Direction.NORTH, Direction.EAST};
 	private Axis axis;
 	private Vec3i vec;
 
@@ -31,6 +32,10 @@ public enum Direction {
 
 	public static Direction randomHorizontal(JRand rand) {
 		return HORIZONTALS[rand.nextInt(HORIZONTALS.length)];
+	}
+
+	public static Direction random2D(JRand rand) {
+        	return BY_2D_DATA[rand.nextInt(BY_2D_DATA.length)];
 	}
 	
 	public enum Axis {
