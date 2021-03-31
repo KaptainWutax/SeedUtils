@@ -95,20 +95,6 @@ public class Debugger {
     }
 
     @Test
-    @DisplayName("Test Null Coming from Rand")
-    public void testNull() {
-        try {
-            this.debugger = new JRand.Debugger(null);
-            assertTrue(true);
-            this.debugger.nextSeed();
-            fail();
-        }catch (NullPointerException exception){
-            assertTrue(exception.getStackTrace().length>0);
-            assertEquals(exception.getStackTrace()[0].getClassName(),"kaptainwutax.seedutils.lcg.rand.Rand");
-        }
-    }
-
-    @Test
     @DisplayName("Test ChunkRand Debugger")
     public void testChunkRand() {
         ChunkRand chunkRand=new ChunkRand(1);

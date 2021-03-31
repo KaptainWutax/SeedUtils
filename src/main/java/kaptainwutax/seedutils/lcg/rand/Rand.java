@@ -25,6 +25,10 @@ public class Rand {
         return this.seed;
     }
 
+    public LCG getLcg() {
+        return lcg;
+    }
+
     public long nextSeed() {
         return this.seed = this.lcg.nextSeed(this.seed);
     }

@@ -201,7 +201,7 @@ public class JRand extends Rand {
 		private final JRand delegate;
 
 		public Debugger(JRand delegate ) {
-			super(getLCGReflected(delegate), getSeedReflected(delegate));
+			super(delegate.getLcg(),delegate.getSeed());
 			this.delegate = delegate;
 			this.globalCounter=0;
 			this.nextIntSkip=0;
@@ -305,33 +305,6 @@ public class JRand extends Rand {
 
 		public long getNextIntSkip() {
 			return this.nextIntSkip;
-		}
-
-		private static long getSeedReflected(JRand rand){
-			if (rand==null)return 0;
-			try {
-				Field seed=Rand.class.getDeclaredField("seed");
-				seed.setAccessible(true);
-				return (long)seed.get(rand);
-			} catch (IllegalAccessException | NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-			return 0;
-		}
-
-		private static LCG getLCGReflected(JRand rand){
-			if (rand==null){
-				System.err.println("I am pretty sure the underlying rand will fail, but it's not my fault, I can work with null :)");
-				return null;
-			}
-			try {
-				Field lcg=Rand.class.getDeclaredField("lcg");
-				lcg.setAccessible(true);
-				return (LCG)lcg.get(rand);
-			} catch (IllegalAccessException | NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-			return null;
 		}
 	}
 
