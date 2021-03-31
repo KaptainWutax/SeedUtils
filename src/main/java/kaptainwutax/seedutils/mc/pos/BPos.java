@@ -8,6 +8,10 @@ public class BPos extends Vec3i {
 		super(x, y, z);
 	}
 
+	public BPos(Vec3i vec3i) {
+		super(vec3i.getX(),vec3i.getY(),vec3i.getZ());
+	}
+
 	public BPos add(BPos pos) {
 		return this.add(pos.getX(), pos.getY(), pos.getZ());
 	}

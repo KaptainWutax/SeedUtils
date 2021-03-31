@@ -1,6 +1,7 @@
 package kaptainwutax.seedutils.mc;
 
 import kaptainwutax.mathutils.util.Mth;
+import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.lcg.rand.JRand;
 import kaptainwutax.seedutils.mc.seed.RegionSeed;
 import kaptainwutax.seedutils.util.UnsupportedVersion;
@@ -17,6 +18,10 @@ public class ChunkRand extends JRand {
 
 	public ChunkRand(long seed, boolean scramble) {
 		super(seed, scramble);
+	}
+
+	public ChunkRand.Debugger asChunkRandDebugger() {
+		return new ChunkRand.Debugger(this);
 	}
 
 	/**
@@ -235,4 +240,55 @@ public class ChunkRand extends JRand {
 		return this.setSlimeSeed(worldSeed, chunkX, chunkZ, 987234911L, version);
 	}
 
+
+	public static final class Debugger extends ChunkRand {
+		public JRand.Debugger debugger;
+
+		public Debugger(JRand delegate ) {
+			this.debugger=delegate.asDebugger();
+		}
+
+		@Override
+		public long nextSeed() {
+			return this.debugger.nextSeed();
+		}
+
+		@Override
+		public void setSeed(long seed) {
+			this.debugger.setSeed(seed);
+		}
+
+		@Override
+		public void advance(long calls) {
+			this.debugger.advance(calls);
+		}
+
+		@Override
+		public int nextInt(int bound) {
+			return this.debugger.nextInt(bound);
+		}
+
+		@Override
+		public int next(int bits) {
+			return this.debugger.next(bits);
+		}
+
+		@Override
+		public void advance(LCG lcg) {
+			this.debugger.advance(lcg);
+		}
+
+		@Override
+		public long getSeed(){
+			return this.debugger.getSeed();
+		}
+
+		public long getGlobalCounter() {
+			return this.debugger.getGlobalCounter();
+		}
+
+		public long getNextIntSkip() {
+			return this.debugger.getNextIntSkip();
+		}
+	}
 }

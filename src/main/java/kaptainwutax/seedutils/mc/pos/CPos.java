@@ -8,6 +8,10 @@ public class CPos extends Vec3i {
 		super(x, 0, z);
 	}
 
+	public CPos(Vec3i vec3i) {
+		super(vec3i.getX(),vec3i.getY(),vec3i.getZ());
+	}
+
 	public BPos toBlockPos() {
 		return this.toBlockPos(0);
 	}

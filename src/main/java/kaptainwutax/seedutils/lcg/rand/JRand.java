@@ -2,6 +2,7 @@ package kaptainwutax.seedutils.lcg.rand;
 
 import kaptainwutax.seedutils.lcg.LCG;
 
+import java.lang.reflect.Field;
 import java.util.Random;
 
 public class JRand extends Rand {
@@ -122,6 +123,10 @@ public class JRand extends Rand {
 		return new JRand.RandomWrapper(this);
 	}
 
+	public JRand.Debugger asDebugger() {
+		return new JRand.Debugger(this);
+	}
+
 	public Random copyToRandom() {
 		return this.copy().asRandomView();
 	}
@@ -185,6 +190,121 @@ public class JRand extends Rand {
 		@Override
 		public void setSeed(long seed) {
 			this.delegate.setSeed(seed);
+		}
+	}
+
+	public static final class Debugger extends JRand {
+
+		private long globalCounter;
+		private long nextIntSkip;
+		private boolean hasCalledAdvance;
+		private final JRand delegate;
+
+		public Debugger(JRand delegate ) {
+			super(delegate.getLcg(),delegate.getSeed());
+			this.delegate = delegate;
+			this.globalCounter=0;
+			this.nextIntSkip=0;
+		}
+
+		@Override
+		public long nextSeed() {
+			if (this.delegate!=null){
+				this.globalCounter++;
+				return this.delegate.nextSeed();
+			}else{
+				return super.nextSeed();
+			}
+		}
+
+		@Override
+		public void setSeed(long seed) {
+			if (this.delegate!=null){
+				this.globalCounter=0;
+				this.delegate.setSeed(seed);
+			}else{
+				super.setSeed(seed,false);
+			}
+		}
+
+		@Override
+		public void advance(long calls) {
+			if (this.delegate!=null) {
+				this.globalCounter+=calls;
+				this.hasCalledAdvance=true;
+				this.delegate.advance(calls);
+			}else{
+				super.advance(calls);
+			}
+		}
+
+		@Override
+		public int nextInt(int bound) {
+			if (this.delegate!=null) {
+				if(bound <= 0) {
+					throw new IllegalArgumentException("bound must be positive");
+				}
+
+				if((bound & -bound) == bound) {
+					this.globalCounter++;
+					return (int)((bound * (long)this.delegate.next(31)) >> 31);
+				}
+
+				int bits, value;
+				long oldCounter=this.globalCounter;
+				do {
+					this.globalCounter++;
+					bits = this.delegate.next(31);
+					value = bits % bound;
+				} while(bits - value + (bound - 1) < 0);
+				this.nextIntSkip+=this.globalCounter-oldCounter-1;
+				return value;
+			}else{
+				return super.nextInt(bound);
+			}
+		}
+
+		@Override
+		public int next(int bits) {
+			if (this.delegate!=null) {
+				this.globalCounter++;
+				return this.delegate.next(bits);
+			}else{
+				return super.next(bits);
+			}
+		}
+
+		@Override
+		public void advance(LCG lcg) {
+			if (this.delegate!=null) {
+				long old=this.getSeed();
+				this.delegate.advance(lcg);
+				if (this.hasCalledAdvance){
+					this.hasCalledAdvance=false;
+				}else{
+					this.globalCounter+=LCG.JAVA.distance(old,this.getSeed())-1;
+				}
+			}else{
+				super.advance(lcg);
+			}
+		}
+
+		@Override
+		public long getSeed(){
+			if (this.delegate!=null){
+				return this.delegate.getSeed();
+			}else{
+				return super.getSeed();
+			}
+
+		}
+
+		public long getGlobalCounter() {
+			return this.globalCounter;
+		}
+
+		public long getNextIntSkip() {
+			return this.nextIntSkip;
 		}
 	}
 
