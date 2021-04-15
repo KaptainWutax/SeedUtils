@@ -39,15 +39,15 @@ public class BlockBoxTest {
     public void testRotateBB() {
         Rotation rotation = Rotation.COUNTERCLOCKWISE_90;
         BlockBox blockBox = new BlockBox(1285, -2, 1003, 1312, 6, 1011);
-        assertEquals(new BlockBox(1312, -2, 1011, 1285, 6, 1003), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
+        assertEquals(new BlockBox(1285 , -2, 1011, 1312, 6, 1003), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
         rotation = Rotation.CLOCKWISE_180;
         blockBox = new BlockBox(1296, -1, 1235, 1304, 7, 1262);
-        assertEquals(new BlockBox(1304, -1, 1235, 1296, 7, 1262), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
+        assertEquals(new BlockBox(1304, -1, 1262, 1296, 7, 1235), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
         rotation = Rotation.NONE;
         blockBox = new BlockBox(880, -2, 784, 888, 6, 811);
-        assertEquals(new BlockBox(880, -2, 811, 888, 6, 784), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
+        assertEquals(new BlockBox(880, -2, 784, 888, 6, 811), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
         rotation = Rotation.CLOCKWISE_90;
         blockBox = new BlockBox(1192, -2, 667, 1219, 6, 675);
-        assertEquals(new BlockBox(1192, -2, 667, 1219, 6, 675), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
+        assertEquals(new BlockBox(1219, -2, 667, 1192, 6, 675), blockBox.getRotated(rotation), "Incorrect rotated for shipwreck");
     }
 }

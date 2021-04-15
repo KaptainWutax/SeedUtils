@@ -13,7 +13,7 @@ public enum Rotation {
     CLOCKWISE_180(Direction.SOUTH),
     COUNTERCLOCKWISE_90(Direction.WEST)
     ;
-    
+
     private final Direction direction;
 
     Rotation(Direction direction) {

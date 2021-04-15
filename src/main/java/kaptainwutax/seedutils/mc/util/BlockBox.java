@@ -145,13 +145,13 @@ public class BlockBox {
 
     public BlockBox getRotated(Rotation rotation) {
         /*
-        We use the C90 referential as such
+        We use the NONE referential as such
 
-        ********2
+        1********
         *       *
         *       * X
         *       * | - Z
-        1********
+        ********2
 
         1=(minX,minY,minZ) (first point of the template)
         2=(maxX,maxY,maxZ) (second point of the template)
@@ -159,13 +159,13 @@ public class BlockBox {
          */
         switch (rotation) {
             case COUNTERCLOCKWISE_90: // WEST
-                return new BlockBox(this.maxX, this.minY, this.maxZ, this.minX, this.maxY, this.minZ);
+                return new BlockBox(this.minX, this.minY, this.maxZ, this.maxX, this.maxY, this.minZ) ;
             case CLOCKWISE_90: // EAST
-                return this;
-            case CLOCKWISE_180: // SOUTH
                 return new BlockBox(this.maxX, this.minY, this.minZ, this.minX, this.maxY, this.maxZ);
+            case CLOCKWISE_180: // SOUTH
+                return new BlockBox(this.maxX, this.minY, this.maxZ, this.minX, this.maxY, this.minZ);
             case NONE: // NORTH
-                return new BlockBox(this.minX, this.minY, this.maxZ, this.maxX, this.maxY, this.minZ);
+                return this ;
 
         }
         return null;
