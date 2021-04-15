@@ -143,6 +143,22 @@ public class BlockBox {
         this.maxZ += z;
     }
 
+    public BPos getInside(BPos offset, Rotation rotation) {
+        switch (rotation) {
+            case NONE:
+                return new BPos(this.minX + offset.getX(), this.minY + offset.getY(), this.minZ + offset.getZ());
+            case CLOCKWISE_90:
+                return new BPos(this.minX - offset.getZ(), this.minY + offset.getY(), this.minZ + offset.getX());
+            case CLOCKWISE_180:
+                return new BPos(this.minX - offset.getX(), this.minY + offset.getY(), this.minZ - offset.getZ());
+            case COUNTERCLOCKWISE_90:
+                return new BPos(this.minX + offset.getZ(), this.minY + offset.getY(), this.minZ - offset.getX());
+        }
+        return null;
+        // we assume the offset is not larger than the bb
+
+    }
+
     public BlockBox getRotated(Rotation rotation) {
         /*
         We use the NONE referential as such
@@ -159,13 +175,13 @@ public class BlockBox {
          */
         switch (rotation) {
             case COUNTERCLOCKWISE_90: // WEST
-                return new BlockBox(this.minX, this.minY, this.maxZ, this.maxX, this.maxY, this.minZ) ;
+                return new BlockBox(this.minX, this.minY, this.maxZ, this.maxX, this.maxY, this.minZ);
             case CLOCKWISE_90: // EAST
                 return new BlockBox(this.maxX, this.minY, this.minZ, this.minX, this.maxY, this.maxZ);
             case CLOCKWISE_180: // SOUTH
                 return new BlockBox(this.maxX, this.minY, this.maxZ, this.minX, this.maxY, this.minZ);
             case NONE: // NORTH
-                return this ;
+                return this;
 
         }
         return null;
