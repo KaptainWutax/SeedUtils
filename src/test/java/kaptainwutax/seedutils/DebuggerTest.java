@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class Debugger {
+public class DebuggerTest {
     private JRand rand;
     private JRand.Debugger debugger;
 
