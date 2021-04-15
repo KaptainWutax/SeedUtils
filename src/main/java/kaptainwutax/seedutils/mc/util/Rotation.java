@@ -9,10 +9,11 @@ import java.util.List;
 public enum Rotation {
 
     NONE(Direction.NORTH),
+    CLOCKWISE_90(Direction.EAST),
     CLOCKWISE_180(Direction.SOUTH),
-    COUNTERCLOCKWISE_90(Direction.WEST),
-    CLOCKWISE_90(Direction.EAST);
-
+    COUNTERCLOCKWISE_90(Direction.WEST)
+    ;
+    
     private final Direction direction;
 
     Rotation(Direction direction) {

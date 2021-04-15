@@ -21,7 +21,7 @@ public class SeedMixer {
      *
      * @see SeedMixer#getOtherSolution(long)
      */
-    // @formatter:on 
+    // @formatter:on
     public static final long MAGIC = -B * Mth.modInverse(A);
 
     public final long salt;
