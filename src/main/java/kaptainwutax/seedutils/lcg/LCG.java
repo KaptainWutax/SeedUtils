@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class LCG {
 
-    public static final LCG CC65_M23 = new LCG(65793L,4282663L, 1L << 23);
+    public static final LCG CC65_M23 = new LCG(65793L, 4282663L, 1L << 23);
 
     public static final LCG VISUAL_BASIC = new LCG(1140671485L, 12820163L, 1L << 24);
 
@@ -14,7 +14,7 @@ public class LCG {
     public static final LCG MINSTD_RAND0_C = new LCG(16807L, 0L, (1L << 31) - 1);
     public static final LCG MINSTD_RAND_C = new LCG(48271, 0L, (1L << 31) - 1);
 
-    public static final LCG CC65_M31 = new LCG(16843009L,826366247L, 1L << 23);
+    public static final LCG CC65_M31 = new LCG(16843009L, 826366247L, 1L << 23);
     public static final LCG RANDU = new LCG(65539L, 0L, 1L << 31);
     public static final LCG GLIB_C = new LCG(1103515245L, 12345L, 1L << 31);
 
@@ -52,6 +52,16 @@ public class LCG {
         this.trailingZeros = this.isPowerOf2 ? Long.numberOfTrailingZeros(this.modulus) : -1;
     }
 
+    public static LCG combine(LCG... lcgs) {
+        LCG lcg = lcgs[0];
+
+        for (int i = 1; i < lcgs.length; i++) {
+            lcg = lcg.combine(lcgs[i]);
+        }
+
+        return lcg;
+    }
+
     public boolean isModPowerOf2() {
         return this.isPowerOf2;
     }
@@ -69,9 +79,9 @@ public class LCG {
     }
 
     public long mod(long n) {
-        if(this.isModPowerOf2()) {
+        if (this.isModPowerOf2()) {
             return n & (this.modulus - 1);
-        } else if(n <= 1L << 32) {
+        } else if (n <= 1L << 32) {
             return Long.remainderUnsigned(n, this.modulus);
         }
 
@@ -85,8 +95,8 @@ public class LCG {
         long intermediateMultiplier = this.multiplier;
         long intermediateAddend = this.addend;
 
-        for(long k = steps; k != 0; k >>>= 1) {
-            if((k & 1) != 0) {
+        for (long k = steps; k != 0; k >>>= 1) {
+            if ((k & 1) != 0) {
                 multiplier *= intermediateMultiplier;
                 addend = intermediateMultiplier * addend + intermediateAddend;
             }
@@ -102,21 +112,11 @@ public class LCG {
     }
 
     public LCG combine(LCG lcg) {
-        if(this.modulus != lcg.modulus) {
+        if (this.modulus != lcg.modulus) {
             throw new UnsupportedOperationException();
         }
 
         return new LCG(this.multiplier * lcg.multiplier, lcg.multiplier * this.addend + lcg.addend, this.modulus);
-    }
-
-    public static LCG combine(LCG... lcgs) {
-        LCG lcg = lcgs[0];
-
-        for(int i = 1; i < lcgs.length; i++) {
-            lcg = lcg.combine(lcgs[i]);
-        }
-
-        return lcg;
     }
 
     public LCG invert() {
@@ -124,7 +124,7 @@ public class LCG {
     }
 
     public long distance(long seed1, long seed2) {
-        if(DiscreteLog.supports(this)) {
+        if (DiscreteLog.supports(this)) {
             long aFromZero = DiscreteLog.distanceFromZero(this, seed1);
             long bFromZero = DiscreteLog.distanceFromZero(this, seed2);
             return Mth.maskSigned(bFromZero - aFromZero, this.getModTrailingZeroes());
@@ -135,9 +135,9 @@ public class LCG {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this)return true;
-        if(!(obj instanceof LCG))return false;
-        LCG lcg = (LCG)obj;
+        if (obj == this) return true;
+        if (!(obj instanceof LCG)) return false;
+        LCG lcg = (LCG) obj;
         return this.multiplier == lcg.multiplier && this.addend == lcg.addend && this.modulus == lcg.modulus;
     }
 

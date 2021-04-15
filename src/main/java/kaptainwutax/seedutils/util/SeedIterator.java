@@ -37,7 +37,7 @@ public class SeedIterator {
     }
 
     public void forEachRemaining(LongConsumer action) {
-        while(this.hasNext()) {
+        while (this.hasNext()) {
             action.accept(this.next());
         }
     }

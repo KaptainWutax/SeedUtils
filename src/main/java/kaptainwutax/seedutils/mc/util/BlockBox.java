@@ -45,23 +45,6 @@ public class BlockBox {
         return new BlockBox(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
     }
 
-    public BlockBox offset(int x, int y, int z) {
-        return new BlockBox(
-                this.minX + x, this.minY + y, this.minZ + z,
-                this.maxX + x, this.maxY + y, this.maxZ + z
-        );
-    }
-
-    public void move(int x, int y, int z) {
-        this.minX += x;
-        this.minY += y;
-        this.minZ += z;
-        this.maxX += x;
-        this.maxY += y;
-        this.maxZ += z;
-    }
-
-
     /**
      * Use with Rotation as last parameter (can use Direction#getRotation to convert
      */
@@ -96,34 +79,6 @@ public class BlockBox {
         return null;
     }
 
-    public BlockBox getRotated(Rotation rotation) {
-        /*
-        We use the C90 referential as such
-
-        ********2
-        *       *
-        *       * X
-        *       * | - Z
-        1********
-
-        1=(minX,minY,minZ) (first point of the template)
-        2=(maxX,maxY,maxZ) (second point of the template)
-
-         */
-        switch (rotation) {
-            case COUNTERCLOCKWISE_90: // WEST
-                return new BlockBox(this.maxX,this.minY,this.maxZ,this.minX,this.maxY,this.minZ);
-            case CLOCKWISE_90: // EAST
-                return this;
-            case CLOCKWISE_180: // SOUTH
-                return new BlockBox(this.maxX,this.minY,this.minZ,this.minX,this.maxY,this.maxZ);
-            case NONE: // NORTH
-                return new BlockBox(this.minX,this.minY,this.maxZ,this.maxX,this.maxY,this.minZ);
-
-        }
-        return null;
-    }
-
     public static BlockBox getBoundingBox(BPos anchor, Rotation rotation, BPos pivot, Mirror mirror, BPos size) {
         BPos rotationSize = rotation.getSize(size);
         int pivotX = pivot.getX();
@@ -148,10 +103,10 @@ public class BlockBox {
 
         switch (mirror) {
             case LEFT_RIGHT:
-                blockBox=mirrorAABB(rotation, sizedRotationZ, sizedRotationX, blockBox, Direction.NORTH, Direction.SOUTH);
+                blockBox = mirrorAABB(rotation, sizedRotationZ, sizedRotationX, blockBox, Direction.NORTH, Direction.SOUTH);
                 break;
             case FRONT_BACK:
-                blockBox=mirrorAABB(rotation, sizedRotationX, sizedRotationZ, blockBox, Direction.WEST, Direction.EAST);
+                blockBox = mirrorAABB(rotation, sizedRotationX, sizedRotationZ, blockBox, Direction.WEST, Direction.EAST);
             case NONE:
         }
         return blockBox.offset(anchor.getX(), anchor.getY(), anchor.getZ());
@@ -172,6 +127,49 @@ public class BlockBox {
         return blockBox.offset(moveAmount.getX(), 0, moveAmount.getZ());
     }
 
+    public BlockBox offset(int x, int y, int z) {
+        return new BlockBox(
+                this.minX + x, this.minY + y, this.minZ + z,
+                this.maxX + x, this.maxY + y, this.maxZ + z
+        );
+    }
+
+    public void move(int x, int y, int z) {
+        this.minX += x;
+        this.minY += y;
+        this.minZ += z;
+        this.maxX += x;
+        this.maxY += y;
+        this.maxZ += z;
+    }
+
+    public BlockBox getRotated(Rotation rotation) {
+        /*
+        We use the C90 referential as such
+
+        ********2
+        *       *
+        *       * X
+        *       * | - Z
+        1********
+
+        1=(minX,minY,minZ) (first point of the template)
+        2=(maxX,maxY,maxZ) (second point of the template)
+
+         */
+        switch (rotation) {
+            case COUNTERCLOCKWISE_90: // WEST
+                return new BlockBox(this.maxX, this.minY, this.maxZ, this.minX, this.maxY, this.minZ);
+            case CLOCKWISE_90: // EAST
+                return this;
+            case CLOCKWISE_180: // SOUTH
+                return new BlockBox(this.maxX, this.minY, this.minZ, this.minX, this.maxY, this.maxZ);
+            case NONE: // NORTH
+                return new BlockBox(this.minX, this.minY, this.maxZ, this.maxX, this.maxY, this.minZ);
+
+        }
+        return null;
+    }
 
     public boolean intersects(BlockBox box) {
         return this.maxX >= box.minX && this.minX <= box.maxX && this.maxZ >= box.minZ && this.minZ <= box.maxZ && this.maxY >= box.minY && this.minY <= box.maxY;

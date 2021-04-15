@@ -19,15 +19,24 @@ public enum Rotation {
         this.direction = direction;
     }
 
+    public static Rotation getRandom(JRand rand) {
+        return values()[rand.nextInt(values().length)];
+    }
+
+    public static List<Rotation> getShuffled(JRand rand) {
+        List<Rotation> list = Arrays.asList(values());
+        JRand.shuffle(list, rand);
+        return list;
+    }
+
     public Direction getDirection() {
         return direction;
     }
 
-
     public Rotation getRotated(Rotation rotation) {
-        switch(rotation) {
+        switch (rotation) {
             case CLOCKWISE_180:
-                switch(this) {
+                switch (this) {
                     case NONE:
                         return CLOCKWISE_180;
                     case CLOCKWISE_90:
@@ -38,7 +47,7 @@ public enum Rotation {
                         return CLOCKWISE_90;
                 }
             case COUNTERCLOCKWISE_90:
-                switch(this) {
+                switch (this) {
                     case NONE:
                         return COUNTERCLOCKWISE_90;
                     case CLOCKWISE_90:
@@ -49,7 +58,7 @@ public enum Rotation {
                         return CLOCKWISE_180;
                 }
             case CLOCKWISE_90:
-                switch(this) {
+                switch (this) {
                     case NONE:
                         return CLOCKWISE_90;
                     case CLOCKWISE_90:
@@ -68,7 +77,7 @@ public enum Rotation {
         if (direction.getAxis() == Direction.Axis.Y) {
             return direction;
         } else {
-            switch(this) {
+            switch (this) {
                 case CLOCKWISE_90:
                     return direction.getClockWise();
                 case CLOCKWISE_180:
@@ -82,7 +91,7 @@ public enum Rotation {
     }
 
     public BPos getSize(BPos size) {
-        switch(this) {
+        switch (this) {
             case COUNTERCLOCKWISE_90:
             case CLOCKWISE_90:
                 return new BPos(size.getZ(), size.getY(), size.getX());
@@ -90,17 +99,6 @@ public enum Rotation {
                 return size;
         }
     }
-
-    public static Rotation getRandom(JRand rand) {
-        return values()[rand.nextInt(values().length)];
-    }
-
-    public static List<Rotation> getShuffled(JRand rand) {
-        List<Rotation> list =Arrays.asList(values());
-        JRand.shuffle(list, rand);
-        return list;
-    }
-
 
     public int rotate(int anchor, int referent) {
         switch (this) {

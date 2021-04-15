@@ -10,9 +10,8 @@ public enum Dimension {
 
     private static Map<String, Dimension> STRING_TO_DIMENSION = Arrays.stream(values())
             .collect(Collectors.toMap(Dimension::toString, o -> o));
-
-    private final String name;
     public final int id;
+    private final String name;
 
     Dimension(String name, int id) {
         this.name = name;

@@ -17,7 +17,7 @@ public final class PillarSeed {
     /**
      * Gets the pillar seed of a given structure seed. This method is equivalent
      * to calling {@code new JRand(structureSeed).nextLong() & 65535}.
-     * */
+     */
     public static long fromStructureSeed(long structureSeed) {
         return (SKIP_2.nextSeed(structureSeed ^ LCG.JAVA.multiplier) >>> 16) & Mth.MASK_16;
     }
@@ -26,7 +26,7 @@ public final class PillarSeed {
      * Provides an iterator that gives all structure seeds that have the given
      * pillar seed. This is an important tool for seed cracking since it reduces the
      * search space from 2^48 to 2^32.
-     * */
+     */
     public static SeedIterator getStructureSeeds(long pillarSeed) {
         return new SeedIterator(0L, 1L << 32, partialStructureSeed -> {
             long currentSeed = (partialStructureSeed & (Mth.MASK_32 - Mth.MASK_16)) << 16;
@@ -42,14 +42,14 @@ public final class PillarSeed {
      * by the y coordinate of the bedrock block on top of the pillars.
      *
      * @see PillarSeed#fromPillarHeights(int[])
-     * */
+     */
     public static int[] getPillarHeights(long pillarSeed) {
         int[] heights = new int[10];
-        for(int i = 0; i < 10; i++)heights[i] = 76 + i * 3;
+        for (int i = 0; i < 10; i++) heights[i] = 76 + i * 3;
 
         JRand rand = new JRand(pillarSeed);
 
-        for(int i = heights.length; i > 1; i--) {
+        for (int i = heights.length; i > 1; i--) {
             int a = i - 1, b = rand.nextInt(i);
             int temp = heights[a];
             heights[a] = heights[b];
@@ -63,12 +63,12 @@ public final class PillarSeed {
      * Find the pillar seed(s) from a list of heights. Useful for seed cracking.
      *
      * @see PillarSeed#getPillarHeights(long)
-     * */
+     */
     public static List<Long> fromPillarHeights(int[] heights) {
         List<Long> seeds = new ArrayList<>();
 
         PillarSeed.iterator().forEachRemaining(pillarSeed -> {
-            if(Arrays.equals(getPillarHeights(pillarSeed), heights)) {
+            if (Arrays.equals(getPillarHeights(pillarSeed), heights)) {
                 seeds.add(pillarSeed);
             }
         });
@@ -78,7 +78,7 @@ public final class PillarSeed {
 
     /**
      * Provides an iterator to go through all possible pillar seeds.
-     * */
+     */
     public static SeedIterator iterator() {
         return new SeedIterator(0L, 1L << 16);
     }

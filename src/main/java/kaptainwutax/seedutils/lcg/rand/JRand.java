@@ -2,7 +2,6 @@ package kaptainwutax.seedutils.lcg.rand;
 
 import kaptainwutax.seedutils.lcg.LCG;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -39,6 +38,61 @@ public class JRand extends Rand {
 
     public static JRand ofScrambledSeed(long seed) {
         return new JRand(seed, true);
+    }
+
+    public static boolean nextBoolean(long seed) {
+        return ((seed >>> 47) & 1) == 1;
+    }
+
+    public static int nextInt(long seed) {
+        return (int) (seed >>> 16);
+    }
+
+    public static int nextInt(long seed, int bound) {
+        if (bound <= 0) {
+            throw new IllegalArgumentException("bound must be positive");
+        }
+
+        if ((bound & -bound) == bound) {
+            return (int) ((bound * seed) >> 31);
+        }
+
+        int bits, value;
+
+        do {
+            bits = (int) (seed >>> 17);
+            value = bits % bound;
+            seed = LCG.JAVA.nextSeed(seed);
+        } while (bits - value + (bound - 1) < 0);
+
+        return value;
+    }
+
+    public static float nextFloat(long seed) {
+        return (int) (seed >>> 24) / ((float) (1 << 24));
+    }
+
+    public static long nextLong(long seed) {
+        return (seed >>> 16 << 32) + (int) (LCG.JAVA.nextSeed(seed) >>> 16);
+    }
+
+    public static double nextDouble(long seed) {
+        return (((long) ((int) (seed >>> 22)) << 27) + (int) (LCG.JAVA.nextSeed(seed) >>> 21)) * DOUBLE_UNIT;
+    }
+
+    public static void shuffle(List<?> list, JRand rand) {
+        rand.shuffle(list);
+    }
+
+    public static void swap(Object[] arr, int i, int j) {
+        Object tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static void swap(List<?> list, int i, int j) {
+        ((List) list).set(i, ((List) list).set(j, ((List) list).get(i)));
     }
 
     @Override
@@ -118,12 +172,12 @@ public class JRand extends Rand {
     public void shuffle(List<?> list) {
         int size = list.size();
         if (size < 5 || list instanceof RandomAccess) {
-            for (int i=size; i>1; i--)
-                swap(list, i-1, this.nextInt(i));
+            for (int i = size; i > 1; i--)
+                swap(list, i - 1, this.nextInt(i));
         } else {
             Object[] arr = list.toArray();
-            for (int i=size; i>1; i--)
-                swap(arr, i-1, this.nextInt(i));
+            for (int i = size; i > 1; i--)
+                swap(arr, i - 1, this.nextInt(i));
             ListIterator it = list.listIterator();
             for (Object e : arr) {
                 it.next();
@@ -157,61 +211,6 @@ public class JRand extends Rand {
         return new Random(this.getSeed() ^ LCG.JAVA.multiplier);
     }
 
-    public static boolean nextBoolean(long seed) {
-        return ((seed >>> 47) & 1) == 1;
-    }
-
-    public static int nextInt(long seed) {
-        return (int) (seed >>> 16);
-    }
-
-    public static int nextInt(long seed, int bound) {
-        if (bound <= 0) {
-            throw new IllegalArgumentException("bound must be positive");
-        }
-
-        if ((bound & -bound) == bound) {
-            return (int) ((bound * seed) >> 31);
-        }
-
-        int bits, value;
-
-        do {
-            bits = (int) (seed >>> 17);
-            value = bits % bound;
-            seed = LCG.JAVA.nextSeed(seed);
-        } while (bits - value + (bound - 1) < 0);
-
-        return value;
-    }
-
-    public static float nextFloat(long seed) {
-        return (int) (seed >>> 24) / ((float) (1 << 24));
-    }
-
-    public static long nextLong(long seed) {
-        return (seed >>> 16 << 32) + (int) (LCG.JAVA.nextSeed(seed) >>> 16);
-    }
-
-    public static double nextDouble(long seed) {
-        return (((long) ((int) (seed >>> 22)) << 27) + (int) (LCG.JAVA.nextSeed(seed) >>> 21)) * DOUBLE_UNIT;
-    }
-
-    public static void shuffle(List<?> list, JRand rand) {
-        rand.shuffle(list);
-    }
-
-    public static void swap(Object[] arr, int i, int j) {
-        Object tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void swap(List<?> list, int i, int j) {
-        ((List) list).set(i, ((List) list).set(j, ((List) list).get(i)));
-    }
-
     private static final class RandomWrapper extends Random {
         private final JRand delegate;
 
@@ -232,10 +231,10 @@ public class JRand extends Rand {
 
     public static final class Debugger extends JRand {
 
+        private final JRand delegate;
         private long globalCounter;
         private long nextIntSkip;
         private boolean hasCalledAdvance;
-        private final JRand delegate;
 
         public Debugger(JRand delegate) {
             super(delegate.getLcg(), delegate.getSeed());
@@ -251,16 +250,6 @@ public class JRand extends Rand {
                 return this.delegate.nextSeed();
             } else {
                 return super.nextSeed();
-            }
-        }
-
-        @Override
-        public void setSeed(long seed) {
-            if (this.delegate != null) {
-                this.globalCounter = 0;
-                this.delegate.setSeed(seed);
-            } else {
-                super.setSeed(seed, false);
             }
         }
 
@@ -334,6 +323,16 @@ public class JRand extends Rand {
                 return super.getSeed();
             }
 
+        }
+
+        @Override
+        public void setSeed(long seed) {
+            if (this.delegate != null) {
+                this.globalCounter = 0;
+                this.delegate.setSeed(seed);
+            } else {
+                super.setSeed(seed, false);
+            }
         }
 
         public long getGlobalCounter() {

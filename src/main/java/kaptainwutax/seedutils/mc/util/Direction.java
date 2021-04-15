@@ -24,34 +24,48 @@ public enum Direction {
         this.vec = vec;
     }
 
+    public static Direction randomHorizontal(JRand rand) {
+        return HORIZONTALS[rand.nextInt(HORIZONTALS.length)];
+    }
+
+    public static Direction getRandom(JRand rand) {
+        return values()[rand.nextInt(values().length)];
+    }
+
+    public static List<Direction> getShuffled(JRand rand) {
+        List<Direction> list = Arrays.asList(values());
+        JRand.shuffle(list, rand);
+        return list;
+    }
+
     public Direction getClockWise() {
-		return getDirection(EAST, WEST, NORTH, SOUTH);
+        return getDirection(EAST, WEST, NORTH, SOUTH);
     }
 
     public Direction getCounterClockWise() {
-		return getDirection(WEST, EAST, SOUTH, NORTH);
-	}
+        return getDirection(WEST, EAST, SOUTH, NORTH);
+    }
 
     public Direction getOpposite() {
-		return getDirection(SOUTH, NORTH, EAST, WEST);
-	}
+        return getDirection(SOUTH, NORTH, EAST, WEST);
+    }
 
-	private Direction getDirection(Direction dir1, Direction dir2, Direction dir3, Direction dir4) {
-		switch (this) {
-			case NORTH:
-				return dir1;
-			case SOUTH:
-				return dir2;
-			case WEST:
-				return dir3;
-			case EAST:
-				return dir4;
-			default:
-				throw new IllegalStateException("Unable to get facing of " + this);
-		}
-	}
+    private Direction getDirection(Direction dir1, Direction dir2, Direction dir3, Direction dir4) {
+        switch (this) {
+            case NORTH:
+                return dir1;
+            case SOUTH:
+                return dir2;
+            case WEST:
+                return dir3;
+            case EAST:
+                return dir4;
+            default:
+                throw new IllegalStateException("Unable to get facing of " + this);
+        }
+    }
 
-	public Axis getAxis() {
+    public Axis getAxis() {
         return this.axis;
     }
 
@@ -59,7 +73,7 @@ public enum Direction {
         return this.vec;
     }
 
-    public Rotation getRotation(){
+    public Rotation getRotation() {
         switch (this) {
             case NORTH:
                 return Rotation.NONE;
@@ -74,18 +88,12 @@ public enum Direction {
         }
     }
 
-    public static Direction randomHorizontal(JRand rand) {
-        return HORIZONTALS[rand.nextInt(HORIZONTALS.length)];
-    }
-
-    public static Direction getRandom(JRand rand) {
-        return values()[rand.nextInt(values().length)];
-    }
-
-    public static List<Direction> getShuffled(JRand rand) {
-        List<Direction> list = Arrays.asList(values());
-        JRand.shuffle(list, rand);
-        return list;
+    @Override
+    public String toString() {
+        return "Direction{" +
+                "axis=" + axis +
+                ", vec=" + vec +
+                '}';
     }
 
     public enum Axis {
@@ -102,13 +110,5 @@ public enum Direction {
             }
         }
 
-    }
-
-    @Override
-    public String toString() {
-        return "Direction{" +
-                "axis=" + axis +
-                ", vec=" + vec +
-                '}';
     }
 }
