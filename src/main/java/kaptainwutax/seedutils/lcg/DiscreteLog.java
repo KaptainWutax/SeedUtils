@@ -7,9 +7,8 @@ import java.math.BigInteger;
 public class DiscreteLog {
 
 	public static boolean supports(LCG lcg) {
-		if(!lcg.isModPowerOf2() || lcg.getModTrailingZeroes() > 61)return false;
-		if(lcg.multiplier % 2 == 0 || lcg.addend % 2 == 0)return false;
-		return true;
+		if (!lcg.isModPowerOf2() || lcg.getModTrailingZeroes() > 61) return false;
+		return lcg.multiplier % 2 != 0 && lcg.addend % 2 != 0;
 	}
 
 	public static long distanceFromZero(LCG lcg, long seed) {
@@ -23,7 +22,7 @@ public class DiscreteLog {
 	}
 
 	private static long theta(long number, int exp) {
-		if(number % 4 == 3) {
+		if (number % 4 == 3) {
 			number = Mth.getPow2(exp + 2) - number;
 		}
 

@@ -1,7 +1,6 @@
 package kaptainwutax.seedutils.mc.seed;
 
 import kaptainwutax.seedutils.mc.ChunkRand;
-import kaptainwutax.seedutils.mc.MCVersion;
 
 /**
  * Helper class for quickly getting chunk seeds without creating a {@code ChunkRand} instance.

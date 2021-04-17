@@ -7,9 +7,9 @@ public class SeedMixer {
 
 	public static final long A = LCG.MMIX.multiplier;
 	public static final long B = LCG.MMIX.addend;
-
-	/**
-	 * This magic number allows for finding the other root when solving the quadratic.
+	// @formatter:off
+    /**
+     * This magic number allows for finding the other root when solving the quadratic.
 	 *  Given y, solve for x:
 	 *                              ax^2 + bx = ay^2 + by mod 2^64
 	 *                  ax^2 + bx - ay^2 + by = 0 mod 2^64
@@ -18,9 +18,10 @@ public class SeedMixer {
 	 *                           a(x + y) + b = 0 mod 2^64
 	 *                                  x + y = -b * a' mod 2^64
 	 *                                      x = -b * a' - y mod 2^64
-	 *
-	 * @see SeedMixer#getOtherSolution(long)
-	 * */
+     *
+     * @see SeedMixer#getOtherSolution(long)
+     */
+    // @formatter:on
 	public static final long MAGIC = -B * Mth.modInverse(A);
 
 	public final long salt;
@@ -35,24 +36,6 @@ public class SeedMixer {
 		this.steps = steps;
 	}
 
-	public long nextSeed(long seed) {
-		if(this.steps >= 0) {
-			for(int i = 0; i < this.steps; i++) {
-				seed = mixSeed(seed, this.salt);
-			}
-		} else {
-			for(int i = 0; i < -this.steps; i++) {
-				seed = unmixSeed(seed, this.salt, Solution.EVEN);
-			}
-		}
-
-		return seed;
-	}
-
-	public SeedMixer combine(int steps) {
-		return new SeedMixer(this.salt, steps);
-	}
-
 	public static long getOtherSolution(long seed) {
 		return MAGIC - seed;
 	}
@@ -65,24 +48,42 @@ public class SeedMixer {
 
 	public static long unmixSeed(long seed, long salt, Solution solution) {
 		// Because A and B are odd, C must be even for a solution to exist.
-		if(((seed - salt) & 1) == 1) {
+		if (((seed - salt) & 1) == 1) {
 			throw new UnsupportedOperationException("Seed " + seed + " is unreachable with salt " + salt);
 		}
 
 		long r = solution.ordinal();
 
-		for(int j = 1; j < 64; j <<= 1) {
+		for (int j = 1; j < 64; j <<= 1) {
 			r = r - (A * r * r + B * r + salt - seed) * Mth.modInverse(2 * A * r + B, 64);
 		}
 
 		return r;
 	}
 
+	public long nextSeed(long seed) {
+		if (this.steps >= 0) {
+			for (int i = 0; i < this.steps; i++) {
+				seed = mixSeed(seed, this.salt);
+			}
+		} else {
+			for (int i = 0; i < -this.steps; i++) {
+				seed = unmixSeed(seed, this.salt, Solution.EVEN);
+			}
+		}
+
+		return seed;
+	}
+
+	public SeedMixer combine(int steps) {
+		return new SeedMixer(this.salt, steps);
+	}
+
 	public enum Solution {
 		EVEN, ODD;
 
 		public static Solution of(long n) {
-			return values()[(int)(n & 1)];
+			return values()[(int) (n & 1)];
 		}
 	}
 
