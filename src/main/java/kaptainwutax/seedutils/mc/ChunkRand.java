@@ -5,6 +5,7 @@ import kaptainwutax.seedutils.lcg.LCG;
 import kaptainwutax.seedutils.lcg.rand.JRand;
 import kaptainwutax.seedutils.mc.seed.RegionSeed;
 import kaptainwutax.seedutils.util.UnsupportedVersion;
+import kaptainwutax.mcutils.version.MCVersion;
 
 public class ChunkRand extends JRand {
 
