@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.lcg.rand;
+package kaptainwutax.seedutils.rand;
 
 import kaptainwutax.mathutils.util.Mth;
 import kaptainwutax.seedutils.lcg.LCG;
@@ -26,7 +26,7 @@ public class Rand {
 	}
 
 	public LCG getLcg() {
-		return lcg;
+		return this.lcg;
 	}
 
 	public long nextSeed() {
@@ -53,9 +53,9 @@ public class Rand {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Rand)) return false;
-		Rand rand = (Rand) o;
+		if(this == o)return true;
+		if(!(o instanceof Rand))return false;
+		Rand rand = (Rand)o;
 		return this.getSeed() == rand.getSeed() && this.lcg.equals(rand.lcg);
 	}
 
@@ -66,8 +66,7 @@ public class Rand {
 
 	@Override
 	public String toString() {
-		return "Rand{" + "seed=" + this.seed + '}';
+		return "Rand{" + "lcg=" +  this.lcg + ", seed=" + this.seed + '}';
 	}
-
 }
 

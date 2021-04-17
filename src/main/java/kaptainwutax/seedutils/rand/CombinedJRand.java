@@ -1,4 +1,4 @@
-package kaptainwutax.seedutils.lcg.rand;
+package kaptainwutax.seedutils.rand;
 
 import kaptainwutax.seedutils.lcg.LCG;
 

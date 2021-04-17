@@ -1,7 +1,6 @@
 package kaptainwutax.seedutils;
 
-import kaptainwutax.seedutils.lcg.rand.JRand;
-import kaptainwutax.seedutils.mc.ChunkRand;
+import kaptainwutax.seedutils.rand.JRand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -94,14 +93,4 @@ public class DebuggerTest {
         assertEquals(1, debugger.getGlobalCounter(), "The nextBits failed");
     }
 
-    @Test
-    @DisplayName("Test ChunkRand Debugger")
-    public void testChunkRand() {
-        ChunkRand chunkRand = new ChunkRand(1);
-        ChunkRand.Debugger debugger1 = chunkRand.asChunkRandDebugger();
-        JRand.Debugger debugger2 = debugger1.asDebugger();
-        debugger1.nextSeed();
-        assertEquals(1, debugger1.getGlobalCounter());
-        assertEquals(0, debugger2.getGlobalCounter());
-    }
 }

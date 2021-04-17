@@ -55,7 +55,7 @@ public class LCG {
 	public static LCG combine(LCG... lcgs) {
 		LCG lcg = lcgs[0];
 
-		for (int i = 1; i < lcgs.length; i++) {
+		for(int i = 1; i < lcgs.length; i++) {
 			lcg = lcg.combine(lcgs[i]);
 		}
 
@@ -112,7 +112,7 @@ public class LCG {
 	}
 
 	public LCG combine(LCG lcg) {
-		if (this.modulus != lcg.modulus) {
+		if(this.modulus != lcg.modulus) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -124,7 +124,7 @@ public class LCG {
 	}
 
 	public long distance(long seed1, long seed2) {
-		if (DiscreteLog.supports(this)) {
+		if(DiscreteLog.supports(this)) {
 			long aFromZero = DiscreteLog.distanceFromZero(this, seed1);
 			long bFromZero = DiscreteLog.distanceFromZero(this, seed2);
 			return Mth.maskSigned(bFromZero - aFromZero, this.getModTrailingZeroes());
@@ -135,8 +135,8 @@ public class LCG {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (!(obj instanceof LCG)) return false;
+		if(obj == this)return true;
+		if(!(obj instanceof LCG))return false;
 		LCG lcg = (LCG) obj;
 		return this.multiplier == lcg.multiplier && this.addend == lcg.addend && this.modulus == lcg.modulus;
 	}
