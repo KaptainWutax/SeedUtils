@@ -16,6 +16,7 @@ public enum Direction {
     EAST(Axis.X, new Vec3i(1, 0, 0)); // CLOCKWISE_90
 
     private static final Direction[] HORIZONTALS = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+    private static final Direction[] BY_2D_DATA = {Direction.SOUTH, Direction.WEST, Direction.NORTH, Direction.EAST};
     private final Axis axis;
     private final Vec3i vec;
 
@@ -32,6 +33,18 @@ public enum Direction {
         return values()[rand.nextInt(values().length)];
     }
 
+    public static Direction random2D(JRand rand) {
+        return BY_2D_DATA[rand.nextInt(BY_2D_DATA.length)];
+    }
+
+    public static Direction[] getHorizontal(){
+        return HORIZONTALS;
+    }
+
+    public static Direction[] get2d(){
+        return BY_2D_DATA;
+    }
+    
     public static List<Direction> getShuffled(JRand rand) {
         List<Direction> list = Arrays.asList(values());
         JRand.shuffle(list, rand);
