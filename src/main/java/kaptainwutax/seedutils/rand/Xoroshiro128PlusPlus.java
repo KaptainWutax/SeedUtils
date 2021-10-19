@@ -12,6 +12,8 @@ public class Xoroshiro128PlusPlus implements IRand {
 	private boolean haveNextNextGaussian;
 
 	// http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html
+	// Also named mix64variant13 which is David Stafford’s Mix13 variant of the
+	// MurmurHash3 finalizer
 	public static long mixStafford13(long l) {
 		l = (l ^ l >>> 30) * -4658895280553007687L;
 		l = (l ^ l >>> 27) * -7723592293110705685L;
@@ -103,7 +105,7 @@ public class Xoroshiro128PlusPlus implements IRand {
 		long hiSeed = this.seed.hiSeed;
 		long res = Long.rotateLeft(lowSeed + hiSeed, 17) + lowSeed;
 
-		this.seed.loSeed = Long.rotateLeft(lowSeed, 49) ^ (hiSeed ^= lowSeed) ^ hiSeed << 21;
+		this.seed.loSeed = Long.rotateLeft(lowSeed, 49) ^ (hiSeed ^= lowSeed) ^ (hiSeed << 21);
 		this.seed.hiSeed = Long.rotateLeft(hiSeed, 28);
 		return res;
 	}
