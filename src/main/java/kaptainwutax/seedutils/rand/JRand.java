@@ -7,7 +7,8 @@ import java.util.ListIterator;
 import java.util.Random;
 import java.util.RandomAccess;
 
-public class JRand extends Rand {
+@SuppressWarnings("unused")
+public class JRand extends Rand implements IRand {
 
 	private static final double DOUBLE_UNIT = 0x1.0p-53;
 
